@@ -61,3 +61,9 @@ form{
 #newCourseForm{
     margin-top: 2%;
 }
+
+.card-deck .card{
+    min-width: 18rem !important;
+    max-width: 18rem !important;
+    margin-top: 2%;
+}
