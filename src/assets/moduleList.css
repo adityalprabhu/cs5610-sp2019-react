@@ -152,3 +152,11 @@ input:checked + .slider:before {
 
 
 
+.nav-tabs .nav-link.active{
+    background-color: #007bff !important;
+    color: white;
+}
+
+.nav-tabs .nav-link {
+    border: 1px solid #d3d3d3;
+}

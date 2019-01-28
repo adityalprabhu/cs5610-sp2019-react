@@ -7,6 +7,7 @@ import WidgetList from "../components/WidgetList";
 
 
 class CourseEditor extends React.Component {
+
     constructor(props) {
         super(props);
         this.courseService = new CourseService();
@@ -15,7 +16,9 @@ class CourseEditor extends React.Component {
         this.state = {
             course: course,
             module: course.modules[0],
-            deleted: false
+            deleted: false,
+            lesson: course.modules[0].lessons[0],
+            topic: course.modules[0].lessons[0].topics[0]
         }
     }
 
@@ -30,7 +33,8 @@ class CourseEditor extends React.Component {
         }else{
 
             this.setState({
-                module: module
+                module: module,
+                lesson:module.lessons[0]
             });
         }
 
@@ -53,6 +57,46 @@ class CourseEditor extends React.Component {
         console.log(this.state.course);
     };
 
+    deleteLesson = lesson => {
+        console.log("In delete lesson");
+    };
+
+    selectLesson = lesson => {
+        console.log("In select lesson" + lesson.id);
+        if(this.state.deleted) {
+            this.setState({
+                lesson: this.state.module[0]
+            });
+            this.state.deleted =  false;
+        }else{
+
+            this.setState({
+                lesson: lesson,
+                topic: lesson.topics[0]
+            });
+        }
+
+    };
+
+    deleteTopic = topic => {
+        console.log("In delete topic");
+    };
+
+    selectTopic = topic => {
+        console.log("In select topic" + topic.id);
+        if(this.state.deleted) {
+            this.setState({
+                topic: this.state.lesson[0]
+            });
+            this.state.deleted =  false;
+        }else{
+
+            this.setState({
+                topic: topic,
+            });
+        }
+    };
+
     render() {
         return (
             <div>
@@ -69,8 +113,18 @@ class CourseEditor extends React.Component {
                     </div>
                     <div className="col-md">
                         <LessonTabs
-                            lessons={this.state.module.lessons}/>
-                        <TopicPills/>
+                            lessons={this.state.module.lessons}
+                            deleteLesson = {this.deleteLesson}
+                            selectLesson={this.selectLesson}
+                            selectedLessonId={this.state.lesson.id}
+                            course={this.state.course}/>
+                        <div>      </div>
+                        <TopicPills
+                            topics={this.state.lesson.topics}
+                            deleteTopic= {this.deleteTopic}
+                            selectTopic={this.selectTopic}
+                            selectedTopicId={this.state.topic.id}
+                            course={this.state.course}/>
                         <WidgetList/>
                     </div>
                 </div>

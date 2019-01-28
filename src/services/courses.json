@@ -9,11 +9,31 @@
         "lessons": [
           {
             "id": 1,
-            "title": "Lesson 1"
+            "title": "Lesson 1",
+            "topics": [
+              {
+                "id":30,
+                "title":"Topic 30"
+              },
+              {
+                "id":31,
+                "title":"Topic 31"
+              }
+            ]
           },
           {
             "id": 2,
-            "title": "Lesson 2"
+            "title": "Lesson 2",
+            "topics": [
+              {
+                "id":3,
+                "title":"Topic 3"
+              },
+              {
+                "id":4,
+                "title":"Topic 4"
+              }
+            ]
           }
         ]
       },
@@ -23,11 +43,31 @@
         "lessons": [
           {
             "id": 3,
-            "title": "Lesson 3"
+            "title": "Lesson 3",
+            "topics": [
+              {
+                "id":5,
+                "title":"Topic 5"
+              },
+              {
+                "id":6,
+                "title":"Topic 6"
+              }
+            ]
           },
           {
             "id": 4,
-            "title": "Lesson 4"
+            "title": "Lesson 4",
+            "topics": [
+              {
+                "id":7,
+                "title":"Topic 7"
+              },
+              {
+                "id":8,
+                "title":"Topic 8"
+              }
+            ]
           }
         ]
       }
@@ -43,11 +83,31 @@
         "lessons": [
           {
             "id": 1,
-            "title": "Lesson 11"
+            "title": "Lesson 11",
+            "topics": [
+              {
+                "id":19,
+                "title":"Topic 9"
+              },
+              {
+                "id":20,
+                "title":"Topic 10"
+              }
+            ]
           },
           {
             "id": 2,
-            "title": "Lesson 22"
+            "title": "Lesson 22",
+            "topics": [
+              {
+                "id":21,
+                "title":"Topic 1"
+              },
+              {
+                "id":22,
+                "title":"Topic 2"
+              }
+            ]
           }
         ]
       },
@@ -57,11 +117,31 @@
         "lessons": [
           {
             "id": 3,
-            "title": "Lesson 3"
+            "title": "Lesson 3",
+            "topics": [
+              {
+                "id":23,
+                "title":"Topic 3"
+              },
+              {
+                "id":24,
+                "title":"Topic 4"
+              }
+            ]
           },
           {
             "id": 4,
-            "title": "Lesson 4"
+            "title": "Lesson 4",
+            "topics": [
+              {
+                "id":25,
+                "title":"Topic 5"
+              },
+              {
+                "id":26,
+                "title":"Topic 6"
+              }
+            ]
           }
         ]
       }
@@ -77,11 +157,31 @@
         "lessons": [
           {
             "id": 1,
-            "title": "Lesson 111"
+            "title": "Lesson 111",
+            "topics": [
+              {
+                "id":27,
+                "title":"Topic 7"
+              },
+              {
+                "id":28,
+                "title":"Topic 8"
+              }
+            ]
           },
           {
             "id": 2,
-            "title": "Lesson 222"
+            "title": "Lesson 222",
+            "topics": [
+              {
+                "id":29,
+                "title":"Topic 9"
+              },
+              {
+                "id":30,
+                "title":"Topic 1"
+              }
+            ]
           }
         ]
       },
@@ -91,11 +191,31 @@
         "lessons": [
           {
             "id": 3,
-            "title": "Lesson 3"
+            "title": "Lesson 3",
+            "topics": [
+              {
+                "id":31,
+                "title":"Topic 1"
+              },
+              {
+                "id":32,
+                "title":"Topic 2"
+              }
+            ]
           },
           {
             "id": 4,
-            "title": "Lesson 4"
+            "title": "Lesson 4",
+            "topics": [
+              {
+                "id":33,
+                "title":"Topic 3"
+              },
+              {
+                "id":34,
+                "title":"Topic 4"
+              }
+            ]
           }
         ]
       }
