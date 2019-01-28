@@ -3,7 +3,7 @@ import CourseCard from "../components/CourseCard";
 // import CourseCard from './CourseCard'
 // import NewCourseCard from "./NewCourseCard";
 const CourseGrid = ({courses, deleteCourse, addCourse}) =>
-    <div className="card-deck">
+    <div className="card-deck row">
         {
             courses.map(course =>
                 <CourseCard
@@ -14,6 +14,6 @@ const CourseGrid = ({courses, deleteCourse, addCourse}) =>
         }
         {/*<NewCourseCard*/}
             {/*addCourse={addCourse}/>*/}
-    </div>;
+    </div>
 
 export default CourseGrid

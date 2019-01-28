@@ -6,26 +6,26 @@ class CourseService {
         this.courses = courses;
     }
 
-    addCourse = newCourse => {
+    addCourse = course => {
 
-        console.log(newCourse)
-
-        var course = {
+        var newCourse = {
             id: (new Date()).getTime(),
-            title: newCourse.title
+            title: course.title
         };
 
-        console.log(newCourse.owner);
-
-        this.courses.push(course);
+        this.courses.push(newCourse);
         return this.courses
     };
 
 
-    findCourseById = courseId =>
-        this.courses = this.courses.find(
+    findCourseById = courseId => {
+
+        return(this.courses.find(
             course => course.id === courseId
-        );
+        ));
+
+
+    };
 
 
     findAllCourses = () =>
@@ -35,6 +35,19 @@ class CourseService {
     deleteCourse = deleteCourse =>
         this.courses = this.courses.filter(
             course => course.id !== deleteCourse.id
-        )
+        );
+
+    updateCourse = updateCourse => {
+        var courseIndex= this.courses.findIndex(
+            course => course.id === updateCourse.id
+        );
+
+        this.courses[courseIndex].title = updateCourse.title;
+        this.courses[courseIndex].modules = updateCourse.modules;
+
+        // console.log(this.courses[courseIndex]);
+
+        return(this.courses[courseIndex])
+    }
 }
 export default CourseService

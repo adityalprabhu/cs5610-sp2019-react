@@ -13,9 +13,12 @@ class CourseList extends Component {
         this.state = {
             courses: this.courseService.findAllCourses(),
             courseTitle: '',
-            courseOwner: ''
+            courseOwner: '',
+            shouldHide: false,
+            tableView: true
         };
     }
+
     deleteCourse = course =>
         this.setState({
             courses: this.courseService.deleteCourse(course)
@@ -23,10 +26,22 @@ class CourseList extends Component {
 
     addCourse = () =>
         this.setState({
-            courses: this.courseService.addCourse({title : this.state.courseTitle, owner: this.state.courseOwner}),
+            courses: this.courseService.addCourse({title : this.state.courseTitle}),
             courseTitle: '',
             courseOwner: ''
         });
+
+    shouldHide = () => {
+        this.setState({
+            shouldHide: !this.state.shouldHide
+        });
+    };
+
+    toggleView = () => {
+        this.setState({
+            tableView: !this.state.tableView
+        });
+    };
 
     handleNewCourseTitle = (e) =>
     {
@@ -38,30 +53,23 @@ class CourseList extends Component {
         this.setState({courseOwner: e.target.value});
     };
 
+
     render() {
         return (
             <Router>
                 <div>
-                    {/*<button className="btn btn-primary btn-block">Change View</button>*/}
+                    <Link to={this.state.tableView? '/table' : '/grid'}>
+                        <button className="btn btn-primary" onClick={() => this.toggleView()}>Toggle View</button>
+                    </Link>
 
-                    <Link to="/grid">
-                        <button className="btn btn-primary">Course Grid</button>
-                    </Link>
-                    <span>      </span>
-                    <Link to="/table">
-                        <button className="btn btn-primary">Course Table</button>
-                    </Link>
+
                     <table id="newCourseForm">
                         <tbody>
-                        <tr id="userForm" className="row">
+                        <tr id="userForm" className="row newCourse">
 
-                            <th className="col-5">
+                            <th className="col-10">
                                 <input id="courseTitle" className="form-control"
-                                       placeholder="course title" value={this.state.courseTitle} onChange={this.handleNewCourseTitle} required="required" />
-                            </th>
-                            <th className="col-4">
-                                <input id="owner" className="form-control"
-                                       placeholder="owner" value={this.state.courseOwner} onChange={this.handleNewCourseOwner}  required="required" />
+                                       placeholder="new course title" value={this.state.courseTitle} onChange={this.handleNewCourseTitle} required="required" />
                             </th>
                             <th className="col-2">
                                 <button className="btn btn-success" onClick={() => this.addCourse()}>
@@ -81,7 +89,7 @@ class CourseList extends Component {
                                        courses={this.state.courses}/>}/>
                         <Route path="/course/:id"
                                exact
-                               component={CourseEditor}/>
+                               render={(props) => <CourseEditor {...props} courses={this.state.courses} />} />
                         <Route path='/table'
                                render={() => <CourseTable addCourse={this.addCourse}
                                                           deleteCourse={this.deleteCourse}

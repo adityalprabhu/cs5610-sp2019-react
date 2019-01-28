@@ -63,7 +63,21 @@ form{
 }
 
 .card-deck .card{
-    min-width: 18rem !important;
-    max-width: 18rem !important;
+    /*min-width: 12rem !important;*/
+    /*max-width: 12rem !important;*/
     margin-top: 2%;
+    padding: 0px !important;
+}
+
+a, a:hover{
+    text-decoration: none !important;
+    color: #000 !important;
+}
+
+tr .row {
+    display:block !important;
+}
+
+card{
+    padding:0px !important;
 }

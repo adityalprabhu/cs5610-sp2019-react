@@ -19,7 +19,7 @@
       },
       {
         "id": 2,
-        "title": "React",
+        "title": "ReactJS",
         "lessons": [
           {
             "id": 3,
@@ -39,11 +39,31 @@
     "modules": [
       {
         "id": 3,
-        "title": "SQL"
+        "title": "SQL",
+        "lessons": [
+          {
+            "id": 1,
+            "title": "Lesson 11"
+          },
+          {
+            "id": 2,
+            "title": "Lesson 22"
+          }
+        ]
       },
       {
         "id": 4,
-        "title": "JPA"
+        "title": "JPA",
+        "lessons": [
+          {
+            "id": 3,
+            "title": "Lesson 3"
+          },
+          {
+            "id": 4,
+            "title": "Lesson 4"
+          }
+        ]
       }
     ]
   },
@@ -53,11 +73,31 @@
     "modules": [
       {
         "id": 5,
-        "title": "Agile"
+        "title": "Agile",
+        "lessons": [
+          {
+            "id": 1,
+            "title": "Lesson 111"
+          },
+          {
+            "id": 2,
+            "title": "Lesson 222"
+          }
+        ]
       },
       {
         "id": 6,
-        "title": "Testing"
+        "title": "Testing",
+        "lessons": [
+          {
+            "id": 3,
+            "title": "Lesson 3"
+          },
+          {
+            "id": 4,
+            "title": "Lesson 4"
+          }
+        ]
       }
     ]
   }
