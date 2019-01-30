@@ -8,31 +8,42 @@ class LessonTabs extends React.Component {
         super(props);
         this.courseService = new CourseService();
 
+        console.log(this.props.lessons)
         this.state = {
-            lessons: this.props.lessons
+            lessons: this.props.lessons,
+            disableEditTitle: true
         };
 
+
+
         // this.titleChanged = this.titleChanged.bind(this);
+        // this.editLesson = this.editLesson.bind(this);
+
+        // this.fetchTrans = this.fetchTrans().bind(this);
     }
 
     titleChanged = (event) => {
+
+        var changedLessonIndex = this.state.lessons.findIndex(x => x.id == this.props.selectedLessonId);
+        var allLessons = this.state.lessons;
+        allLessons[changedLessonIndex].title = event.target.value ;
+
         this.setState(
             {
-                module: {title: event.target.value}
+                lessons: allLessons
             });
     };
 
     createLesson = () => {
-        console.log("in create!");
 
         this.setState(
             {
                 lessons: [
                     ...this.state.lessons,
                     {
-                        title: 'New Lesson',
-                        id: (new Date()).getTime(),
-                        topics: [
+                        "title": 'New Lesson',
+                        "id": (new Date()).getTime(),
+                        "topics": [
                             {
                                 "id": 1,
                                 "title": "topic1"
@@ -44,12 +55,32 @@ class LessonTabs extends React.Component {
         );
 
         console.log(this.state.lessons);
-
     };
+
+
+    editLesson = () => {
+        console.log("in edit lesson");
+        this.state.disableEditTitle = false;
+    };
+
+
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.lessons[0].id !== this.props.lessons[0].id) {
+
+            this.setState(
+                {
+                    lessons: this.props.lessons
+                });
+        }
+
+
+    }
+
 
     render() {
         return (
-            <ul className="nav nav-tabs nav-justified">
+            <ul className="nav nav-tabs nav-justified" style={{marginTop: "10px"}}>
                 {
                     this.state.lessons.map(lesson =>
 
@@ -60,9 +91,9 @@ class LessonTabs extends React.Component {
                             <div className="row">
                                 <div className="col-6">{lesson.title}</div>
                                 <div className="col-6">
-                                    <Link className="btn btn-warning" to={``}>
+                                    <button className="btn btn-warning" onClick={this.editLesson}>
                                         <i className="fas fa-pencil-alt"></i>
-                                    </Link>
+                                    </button>
                                     <span>       </span>
                                     <button className="btn btn-danger" onClick={() => this.props.deleteLesson(lesson.id)}>
                                         <i className="fas fa-times"></i>
@@ -77,7 +108,8 @@ class LessonTabs extends React.Component {
                         <div className={"col-8"}>
                             <input
                                 onChange={this.titleChanged}
-                                className="form-control"/>
+                                className="form-control"
+                                disabled={this.state.disableEditTitle}/>
                         </div>
                         <div className={"col-4"}>
                             <div

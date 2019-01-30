@@ -24,18 +24,24 @@ class CourseEditor extends React.Component {
 
     selectModule = module => {
 
-        console.log("select");
+        console.log(module);
+        // console.log(module.lessons[0]);
+        // console.log(module.lessons[0].topics[0]);
         if(this.state.deleted) {
+            console.log("Inside delete")
             this.setState({
                 module: this.state.course.modules[0]
             });
             this.state.deleted =  false;
         }else{
-
+            console.log("inside else?");
             this.setState({
                 module: module,
-                lesson:module.lessons[0]
+                lesson: module.lessons[0],
+                topic: module.lessons[0].topics[0]
             });
+
+            console.log(this.state)
         }
 
     };

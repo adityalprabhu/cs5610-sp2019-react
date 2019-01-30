@@ -8,7 +8,8 @@ class ModuleList extends React.Component {
         this.courseService = new CourseService();
 
         this.state = {
-            modules: this.props.modules
+            modules: this.props.modules,
+            disableEditTitle: true
         };
 
         // this.titleChanged = this.titleChanged.bind(this);
@@ -26,7 +27,13 @@ class ModuleList extends React.Component {
                         lessons: [
                             {
                                 "id": 1,
-                                "title": "dummy"
+                                "title": "dummy",
+                                "topics": [
+                                    {
+                                        "id": 1,
+                                        "title": "topic1"
+                                    }
+                                ]
                             }
                         ]
                     }
@@ -36,24 +43,24 @@ class ModuleList extends React.Component {
 
 
 
-        this.courseService.updateCourse(
-            {
-                id: this.props.course.id,
-                title: this.props.course.title,
-                modules: [
-                    ...this.state.modules,
-                    {
-                        title: 'New Module',
-                        id: (new Date()).getTime(),
-                        lessons: [
-                            {
-                                id: 1,
-                                title: "dummy"
-                            }
-                        ]
-                    }
-                ]
-            })
+        // this.courseService.updateCourse(
+        //     {
+        //         id: this.props.course.id,
+        //         title: this.props.course.title,
+        //         modules: [
+        //             ...this.state.modules,
+        //             {
+        //                 title: 'New Module',
+        //                 id: (new Date()).getTime(),
+        //                 lessons: [
+        //                     {
+        //                         id: 1,
+        //                         title: "dummy"
+        //                     }
+        //                 ]
+        //             }
+        //         ]
+        //     })
     };
 
     deleteModule = moduleId => {
@@ -71,10 +78,23 @@ class ModuleList extends React.Component {
     };
 
     titleChanged = (event) => {
+
+        console.log("in title change !")
+
+
+        var changedModuleIndex = this.state.modules.findIndex(x => x.id == this.props.selectedModuleId);
+        var allModules = this.state.modules;
+        allModules[changedModuleIndex].title = event.target.value ;
+
         this.setState(
             {
-                module: {title: event.target.value}
+                modules: allModules
             });
+    };
+
+    editModule = () => {
+      console.log("in edit module");
+      this.state.disableEditTitle = false;
     };
 
     render() {
@@ -84,7 +104,8 @@ class ModuleList extends React.Component {
                     <li className="list-group-item">
                         <input
                             onChange={this.titleChanged}
-                            className="form-control"/>
+                            className="form-control"
+                            disabled={this.state.disableEditTitle}/>
                         <button
                             onClick={this.createModule}
                             className="btn btn-primary btn-block">Add Module</button>
@@ -96,6 +117,7 @@ class ModuleList extends React.Component {
                                     <ModuleListItem
                                         selectModule={this.props.selectModule}
                                         deleteModule={this.deleteModule}
+                                        editModule={this.editModule}
                                         selectedModuleId={this.props.selectedModuleId}
                                         key={module.id}
                                         module={module}/>
