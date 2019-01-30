@@ -14,7 +14,8 @@ class TopicPills extends React.Component {
         this.state = {
             topics: this.props.topics,
             topic: this.props.topics[0],
-            disableEditTitle: true
+            disableEditTitle: true,
+            topicDeleted: false
         };
 
         this.titleChanged = this.titleChanged.bind(this);
@@ -38,7 +39,7 @@ class TopicPills extends React.Component {
         this.setState(
             {
                 topics: [
-                    ...this.props.topics,
+                    ...this.state.topics,
                     {
                         "id": (new Date()).getTime(),
                         "title": "New Topic"
@@ -51,17 +52,45 @@ class TopicPills extends React.Component {
 
     };
 
+    deleteTopic = (topicId) => {
+        console.log(topicId);
+        this.setState({
+            topics: this.state.topics.filter(
+                topic => topic.id !== topicId
+            ),
+            topicDeleted:true
+        });
+    };
+
     editTopic = () => {
         console.log("in edit topic");
         this.state.disableEditTitle = false;
     };
+
+    componentDidUpdate(prevProps) {
+
+    if(!this.state.topicDeleted) {
+
+
+        if (prevProps.topics[0].id !== this.props.topics[0].id) {
+
+            this.setState(
+                {
+                    topics: this.props.topics
+                });
+        }
+    }
+
+
+
+    }
 
     render() {
         return (
 
             <ul className="nav nav-pills" style={{marginTop: "15px"}}>
                 {
-                    this.props.topics.map(topic =>
+                    this.state.topics.map(topic =>
 
                         <li onClick={() => this.props.selectTopic(topic)}
                             className={['nav-item nav-link', topic.id == this.props.selectedTopicId ? 'active' : ''].join(" ")}
@@ -73,7 +102,7 @@ class TopicPills extends React.Component {
                                         <i className="fas fa-pencil-alt"></i>
                                     </button>
                                     <span>       </span>
-                                    <button className="btn btn-danger" onClick={() => this.props.deleteTopic(topic.id)}>
+                                    <button className="btn btn-danger" onClick={() => this.deleteTopic(topic.id)}>
                                         <i className="fas fa-times"></i>
                                     </button>
                                 </div>

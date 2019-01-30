@@ -84,9 +84,22 @@ class CourseEditor extends React.Component {
 
     };
 
-    deleteTopic = topic => {
-        console.log("In delete topic");
-    };
+    // deleteTopic = topic => {
+    //     console.log("In delete topic");
+    //
+    //     var currLesson = this.state.lesson;
+    //     this.setState({
+    //         lesson: {
+    //             id: currLesson.id,
+    //             title: currLesson.title,
+    //
+    //         }
+    //
+    //         this.state.topics.filter(
+    //             topic => topic.id !== topicId
+    //         )
+    //     });
+    // };
 
     selectTopic = topic => {
         console.log("In select topic" + topic.id);

@@ -57,6 +57,17 @@ class LessonTabs extends React.Component {
         console.log(this.state.lessons);
     };
 
+    deleteLesson = (lessonId) => {
+
+        var currLessons = this.state.lessons;
+
+        this.setState({
+            lessons: currLessons.filter(
+                lesson => lesson.id !== lessonId
+            )
+        });
+    };
+
 
     editLesson = () => {
         console.log("in edit lesson");
@@ -95,7 +106,7 @@ class LessonTabs extends React.Component {
                                         <i className="fas fa-pencil-alt"></i>
                                     </button>
                                     <span>       </span>
-                                    <button className="btn btn-danger" onClick={() => this.props.deleteLesson(lesson.id)}>
+                                    <button className="btn btn-danger" onClick={() => this.deleteLesson(lesson.id)}>
                                         <i className="fas fa-times"></i>
                                     </button>
                                 </div>
