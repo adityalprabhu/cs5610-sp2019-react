@@ -103,7 +103,7 @@ class TopicPills extends React.Component {
                                     </button>
                                     <span>       </span>
                                     <button className="btn btn-danger" onClick={() => this.deleteTopic(topic.id)}>
-                                        <i className="fas fa-times"></i>
+                                        <i className="fas fa-trash"></i>
                                     </button>
                                 </div>
                             </div>

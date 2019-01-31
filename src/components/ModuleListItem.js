@@ -12,7 +12,7 @@ const ModuleListItem = ({module, selectModule, deleteModule, selectedModuleId, e
                 </button>
                 <span>       </span>
                 <button className="btn btn-danger" onClick={() => deleteModule(module.id)}>
-                    <i className="fas fa-times"></i>
+                    <i className="fas fa-trash"></i>
                 </button>
             </div>
 
