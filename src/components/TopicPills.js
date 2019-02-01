@@ -3,9 +3,6 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 import CourseService from "../services/CourseService";
 
-
-// const TopicPills = ({topics, deleteTopic, selectTopic, selectedTopicId}) =>
-
 class TopicPills extends React.Component {
     constructor(props) {
         super(props);

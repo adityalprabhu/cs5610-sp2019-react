@@ -12,7 +12,7 @@ class ModuleList extends React.Component {
             disableEditTitle: true
         };
 
-        // this.titleChanged = this.titleChanged.bind(this);
+        this.titleChanged = this.titleChanged.bind(this);
     }
 
     createModule = () => {

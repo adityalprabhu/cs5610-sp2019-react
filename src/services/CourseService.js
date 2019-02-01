@@ -67,7 +67,6 @@ class CourseService {
         this.courses[courseIndex].title = updateCourse.title;
         this.courses[courseIndex].modules = updateCourse.modules;
 
-        // console.log(this.courses[courseIndex]);
 
         return(this.courses[courseIndex])
     }

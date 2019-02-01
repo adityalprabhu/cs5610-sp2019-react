@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import CourseRow from "../components/CourseRow";
-// import CourseService from '../../services/CourseService';
 
 const CourseTable = ({courses, deleteCourse, addCourse, shouldHide}) =>
     <div className="container-fluid">
@@ -22,7 +21,7 @@ const CourseTable = ({courses, deleteCourse, addCourse, shouldHide}) =>
                 )
             }
         </div>
-    </div>
+    </div>;
 
 
 export default CourseTable;

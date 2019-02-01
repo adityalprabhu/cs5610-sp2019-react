@@ -79,8 +79,6 @@ class LessonTabs extends React.Component {
                     lessons: this.props.lessons
                 });
         }
-
-
     }
 
 

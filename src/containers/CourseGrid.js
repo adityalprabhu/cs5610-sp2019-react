@@ -1,7 +1,5 @@
 import React from 'react'
 import CourseCard from "../components/CourseCard";
-// import CourseCard from './CourseCard'
-// import NewCourseCard from "./NewCourseCard";
 import '../assets/courseList.css'
 
 const CourseGrid = ({courses, deleteCourse, addCourse, shouldHide}) =>
