@@ -6,7 +6,7 @@ const CourseRow = ({course, deleteCourse,shouldHide}) =>
     <div className="row table-row">
 
         <div className="col-4">
-            <Link to={`/course/${course.id}`} onClick={() => alert("hello")}>
+            <Link to={`/course/${course.id}`}>
                 {course.title}
             </Link>
         </div>
