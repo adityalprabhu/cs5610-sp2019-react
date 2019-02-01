@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
 
-const CourseCard = ({course, deleteCourse}) =>
+const CourseCard = ({course, deleteCourse, shouldHide}) =>
 
     <div className="card"
          styles={{width: '18rem'}}>
@@ -16,7 +16,7 @@ const CourseCard = ({course, deleteCourse}) =>
             <p className="card-text">Professor</p>
             <div className={"row"}>
                 <div className={"col-4"}>
-                    <Link className="btn btn-warning card-edit-btn" to={`/course/${course.id}`}>
+                    <Link className="btn btn-warning card-edit-btn" to={`/course/${course.id}`} onClick={() => shouldHide("cc")}>
                         <i className="fas fa-pencil-alt"></i>
                     </Link>
                 </div>

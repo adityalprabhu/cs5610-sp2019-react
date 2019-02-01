@@ -20,13 +20,12 @@ class CourseEditor extends React.Component {
             lesson: course.modules[0].lessons[0],
             topic: course.modules[0].lessons[0].topics[0]
         }
+
+        this.props.shouldHide("ce");
     }
 
     selectModule = module => {
 
-        console.log(module);
-        // console.log(module.lessons[0]);
-        // console.log(module.lessons[0].topics[0]);
         if(this.state.deleted) {
             console.log("Inside delete")
             this.setState({
@@ -34,7 +33,7 @@ class CourseEditor extends React.Component {
             });
             this.state.deleted =  false;
         }else{
-            console.log("inside else?");
+            console.log("inside delete else");
             this.setState({
                 module: module,
                 lesson: module.lessons[0],
@@ -61,10 +60,6 @@ class CourseEditor extends React.Component {
 
         console.log("next read this");
         console.log(this.state.course);
-    };
-
-    deleteLesson = lesson => {
-        console.log("In delete lesson");
     };
 
     selectLesson = lesson => {
@@ -113,7 +108,7 @@ class CourseEditor extends React.Component {
                             course={this.state.course}
                         />
                     </div>
-                    <div className="col-md">
+                    <div className="col-md" style={{border: '0.5px solid #d3d3d3'}}>
                         <LessonTabs
                             lessons={this.state.module.lessons}
                             deleteLesson = {this.deleteLesson}

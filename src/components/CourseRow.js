@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
 
-const CourseRow = ({course, deleteCourse}) =>
+const CourseRow = ({course, deleteCourse,shouldHide}) =>
 
     <div className="row table-row">
 
@@ -13,7 +13,7 @@ const CourseRow = ({course, deleteCourse}) =>
         <div className="col-2 col-xs-4 d-none d-sm-block">Professor</div>
         <div className="col-3 d-none d-sm-block">Mon Dec 24 2018 10:00:00</div>
         <div className="col-3" >
-            <Link className="btn btn-warning" to={`/course/${course.id}`}>
+            <Link className="btn btn-warning" to={`/course/${course.id}`} onClick={() => shouldHide("cr")}>
                 <i className="fas fa-pencil-alt"></i>
             </Link>
             <span>       </span>
@@ -25,20 +25,3 @@ const CourseRow = ({course, deleteCourse}) =>
 
 
 export default CourseRow;
-
-
-
-
-// const CourseCard = ({course, deleteCourse}) =>
-//     <div className="card"
-//          styles={{width: '18rem'}}>
-//         <img className="card-img-top"
-//              src="https://picsum.photos/300/200"/>
-//         <div className="card-body">
-//             <h5 className="card-title">{course.title}</h5>
-//             <p className="card-text">Card text.</p>
-//             <Link className="btn btn-primary" to={`/course/${course.id}`}>Edit</Link>
-//             <a onClick={() => deleteCourse(course)}
-//                className="btn btn-danger">Delete</a>
-//         </div></div>
-// export default CourseCard;

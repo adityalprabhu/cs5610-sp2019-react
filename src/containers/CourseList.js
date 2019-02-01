@@ -31,16 +31,33 @@ class CourseList extends Component {
             courseOwner: ''
         });
 
-    shouldHide = () => {
-        this.setState({
-            shouldHide: !this.state.shouldHide
-        });
+    shouldHide = (page) => {
+
+        if(page == "ce"){
+            this.setState({
+                shouldHide: true
+            });
+        }else{
+            var shouldHide = this.state.shouldHide;
+            this.setState({
+                shouldHide: !shouldHide
+            });
+        }
+
     };
 
     toggleView = () => {
-        this.setState({
-            tableView: !this.state.tableView
-        });
+
+        if(this.state.shouldHide == true){
+            this.setState({
+                shouldHide: false
+            });
+        }
+        {
+            this.setState({
+                tableView: !this.state.tableView
+            });
+        }
     };
 
     handleNewCourseTitle = (e) =>
@@ -57,13 +74,13 @@ class CourseList extends Component {
     render() {
         return (
             <Router>
-                <div>
-                    <Link to={this.state.tableView? '/table' : '/grid'}>
+                <div style={{paddingRight: '15px'}}>
+                    <Link to={this.state.tableView? '/table' : '/grid'} >
                         <button className="btn btn-primary" onClick={() => this.toggleView()}>Toggle View</button>
                     </Link>
 
 
-                    <table id="newCourseForm">
+                    <table id="newCourseForm" className={this.state.shouldHide ? 'hidden' : ''}>
                         <tbody>
                         <tr id="userForm" className="row newCourse">
 
@@ -86,14 +103,16 @@ class CourseList extends Component {
                                    <CourseGrid
                                        addCourse={this.addCourse}
                                        deleteCourse={this.deleteCourse}
-                                       courses={this.state.courses}/>}/>
+                                       courses={this.state.courses}
+                                   shouldHide={this.shouldHide}/>}/>
                         <Route path="/course/:id"
                                exact
-                               render={(props) => <CourseEditor {...props} courses={this.state.courses} />} />
+                               render={(props) => <CourseEditor {...props} courses={this.state.courses} shouldHide={this.shouldHide} />} />
                         <Route path='/table'
                                render={() => <CourseTable addCourse={this.addCourse}
                                                           deleteCourse={this.deleteCourse}
-                                                          courses={this.state.courses}/>}/>
+                                                          courses={this.state.courses}
+                                                          shouldHide={this.shouldHide}/>}/>
                     </Switch>
                 </div>
             </Router>

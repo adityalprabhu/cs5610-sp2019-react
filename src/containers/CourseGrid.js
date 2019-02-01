@@ -4,7 +4,7 @@ import CourseCard from "../components/CourseCard";
 // import NewCourseCard from "./NewCourseCard";
 import '../assets/courseList.css'
 
-const CourseGrid = ({courses, deleteCourse, addCourse}) =>
+const CourseGrid = ({courses, deleteCourse, addCourse, shouldHide}) =>
     <div className="container py-5 bg-faded">
         <div className="card-columns">
             {
@@ -12,11 +12,10 @@ const CourseGrid = ({courses, deleteCourse, addCourse}) =>
                     <CourseCard
                         deleteCourse={deleteCourse}
                         course={course}
-                        key={course.id}/>
+                        key={course.id}
+                        shouldHide={shouldHide}/>
                 )
             }
-            {/*<NewCourseCard*/}
-            {/*addCourse={addCourse}/>*/}
         </div>
     </div>;
 

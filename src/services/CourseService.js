@@ -10,8 +10,30 @@ class CourseService {
 
         var newCourse = {
             id: (new Date()).getTime(),
-            title: course.title
+            title: course.title,
+            modules: [
+                {
+                    id: "1",
+                    title: "Module 1",
+                    lessons: [
+                        {
+                            id:"1",
+                            title: "Lesson 1",
+                            topics: [
+                                {
+                                    id:"1",
+                                    title: "Topic 1"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
         };
+
+        if(newCourse.title == ""){
+            newCourse.title = "New Course"
+        }
 
         this.courses.push(newCourse);
         return this.courses

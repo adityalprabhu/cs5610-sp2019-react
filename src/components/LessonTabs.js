@@ -8,18 +8,13 @@ class LessonTabs extends React.Component {
         super(props);
         this.courseService = new CourseService();
 
-        console.log(this.props.lessons)
         this.state = {
             lessons: this.props.lessons,
             disableEditTitle: true
         };
 
-
-
-        // this.titleChanged = this.titleChanged.bind(this);
-        // this.editLesson = this.editLesson.bind(this);
-
-        // this.fetchTrans = this.fetchTrans().bind(this);
+        this.titleChanged = this.titleChanged.bind(this);
+        this.editLesson = this.editLesson.bind(this);
     }
 
     titleChanged = (event) => {

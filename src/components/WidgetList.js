@@ -5,7 +5,7 @@ export default class WidgetList
     extends React.Component {
     render() {
         return(
-            <div>
+            <div style={{marginTop: '5%'}}>
                 <div>
                     <div className="row widget-action-bar">
                         <div className="col-sm-6" />

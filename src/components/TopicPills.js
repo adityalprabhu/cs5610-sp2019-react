@@ -69,8 +69,6 @@ class TopicPills extends React.Component {
 
     componentDidUpdate(prevProps) {
 
-    if(!this.state.topicDeleted) {
-
 
         if (prevProps.topics[0].id !== this.props.topics[0].id) {
 
@@ -79,7 +77,6 @@ class TopicPills extends React.Component {
                     topics: this.props.topics
                 });
         }
-    }
 
 
 

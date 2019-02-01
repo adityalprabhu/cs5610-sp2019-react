@@ -93,8 +93,8 @@ class ModuleList extends React.Component {
     };
 
     editModule = () => {
-      console.log("in edit module");
-      this.state.disableEditTitle = false;
+        console.log("in edit module");
+        this.state.disableEditTitle = false;
     };
 
     render() {
@@ -102,13 +102,19 @@ class ModuleList extends React.Component {
             <div>
                 <ul className="list-group">
                     <li className="list-group-item">
-                        <input
-                            onChange={this.titleChanged}
-                            className="form-control"
-                            disabled={this.state.disableEditTitle}/>
-                        <button
-                            onClick={this.createModule}
-                            className="btn btn-primary btn-block">Add Module</button>
+                        <div className={"row"}>
+                            <div className={"col-8"}>
+                                <input
+                                    onChange={this.titleChanged}
+                                    className="form-control"
+                                    disabled={this.state.disableEditTitle}/>
+                            </div>
+                            <div className={"col-4"}>
+                                <button
+                                    onClick={this.createModule}
+                                    className="btn btn-primary btn-block"><i className="fas fa-plus"></i></button>
+                            </div>
+                        </div>
                     </li>
                     {
                         this.state.modules.map(
