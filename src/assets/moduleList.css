@@ -161,18 +161,24 @@ input:checked + .slider:before {
     border: 1px solid #d3d3d3;
 }
 
-.nav > li{
-    background-color: #333333 !important;
-    color: white;
-}
+/*.nav > li{*/
+    /*background-color: #333333 !important;*/
+    /*color: white;*/
+/*}*/
 
-.list-group > li{
-    background-color: #333333 !important;
-    color: white;
-    border-color: lightgrey;
-}
+/*.list-group > li{*/
+    /*background-color: #333333 !important;*/
+    /*color: white;*/
+    /*border-color: lightgrey;*/
+/*}*/
 
 .list-group > li.active{
+    background-color: #007bff !important;
+    color: white;
+}
+
+
+.nav-tabs .nav-pills.nav-link.active{
     background-color: #007bff !important;
     color: white;
 }
