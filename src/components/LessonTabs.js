@@ -9,7 +9,7 @@ class LessonTabs extends React.Component {
         this.courseService = new CourseService();
 
         this.state = {
-            lessons: this.props.lessons,
+            lessons: this.props.module.lessons,
             disableEditTitle: true
         };
 
@@ -36,32 +36,57 @@ class LessonTabs extends React.Component {
                 lessons: [
                     ...this.state.lessons,
                     {
-                        "title": 'New Lesson',
                         "id": (new Date()).getTime(),
+                        "title": "New Lesson",
                         "topics": [
                             {
                                 "id": 1,
-                                "title": "topic1"
+                                "title": "Topic 1"
                             }
                         ]
                     }
                 ]
+            },() => {
+                var newModule = this.courseService.updateModule(
+                    this.props.course,
+                    {
+                        id: this.props.module.id,
+                        title: this.props.module.title,
+                        lessons: this.state.lessons
+                    });
+
+                console.log(newModule);
             }
         );
-
-        console.log(this.state.lessons);
     };
 
-    deleteLesson = (lessonId) => {
+    deleteLesson = (e, lessonId) => {
+        e.stopPropagation();
 
-        var currLessons = this.state.lessons;
+        if(this.state.lessons.length == 1){
+            alert("Can't delete for now as only one lesson left!")
+        }else {
+            this.setState({
+                lessons: this.state.lessons.filter(
+                    lesson => lesson.id !== lessonId
+                )
+            }, () => {
+                var newModule = this.courseService.updateModule(
+                    this.props.course,
+                    {
+                        id: this.props.module.id,
+                        title: this.props.module.title,
+                        lessons: this.state.lessons
+                    });
 
-        this.setState({
-            lessons: currLessons.filter(
-                lesson => lesson.id !== lessonId
-            )
-        });
+                this.props.resetAllLessonsOnDelete();
+
+                // var course = this.courseService.findCourseById(this.props.course.id)
+                console.log(newModule);
+            });
+        }
     };
+
 
 
     editLesson = () => {
@@ -72,11 +97,11 @@ class LessonTabs extends React.Component {
 
 
     componentDidUpdate(prevProps) {
-        if (prevProps.lessons[0].id !== this.props.lessons[0].id) {
+        if (prevProps.module.lessons[0].id !== this.props.module.lessons[0].id) {
 
             this.setState(
                 {
-                    lessons: this.props.lessons
+                    lessons: this.props.module.lessons
                 });
         }
     }
@@ -84,7 +109,7 @@ class LessonTabs extends React.Component {
 
     render() {
         return (
-            <ul className="nav nav-tabs nav-justified" style={{marginTop: "10px"}}>
+            <ul className="nav nav-tabs nav-justified" style={{marginTop: '10px'}}>
                 {
                     this.state.lessons.map(lesson =>
 
@@ -99,7 +124,7 @@ class LessonTabs extends React.Component {
                                         <i className="fas fa-pencil-alt"></i>
                                     </button>
                                     <span>       </span>
-                                    <button className="btn btn-danger" onClick={() => this.deleteLesson(lesson.id)}>
+                                    <button className="btn btn-danger" onClick={(e) => this.deleteLesson(e, lesson.id)}>
                                         <i className="fas fa-trash"></i>
                                     </button>
                                 </div>

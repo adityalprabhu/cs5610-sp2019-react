@@ -9,8 +9,8 @@ class TopicPills extends React.Component {
         this.courseService = new CourseService();
 
         this.state = {
-            topics: this.props.topics,
-            topic: this.props.topics[0],
+            topics: this.props.lesson.topics,
+            topic: this.props.lesson.topics[0],
             disableEditTitle: true,
             topicDeleted: false
         };
@@ -42,21 +42,48 @@ class TopicPills extends React.Component {
                         "title": "New Topic"
                     }
                 ]
+            },() => {
+                var newLesson = this.courseService.updateLesson(
+                    this.props.course,
+                    this.props.module,
+                    {
+                        id: this.props.lesson.id,
+                        title: this.props.lesson.title,
+                        topics: this.state.topics
+                    });
+
+                console.log(newLesson);
             }
         );
 
-        console.log(this.props.topics);
-
     };
 
-    deleteTopic = (topicId) => {
-        console.log(topicId);
-        this.setState({
-            topics: this.state.topics.filter(
-                topic => topic.id !== topicId
-            ),
-            topicDeleted:true
-        });
+    deleteTopic = (e, topicId) => {
+        e.stopPropagation();
+
+        if(this.state.topics.length == 1){
+            alert("Can't delete for now as only one topic left!")
+        }else {
+            this.setState({
+                topics: this.state.topics.filter(
+                    topic => topic.id !== topicId
+                )
+            }, () => {
+                let newLesson = this.courseService.updateLesson(
+                    this.props.course,
+                    this.props.module,
+                    {
+                        id: this.props.lesson.id,
+                        title: this.props.lesson.title,
+                        topics: this.state.topics
+                    });
+
+                console.log(newLesson);
+
+                this.props.resetAllTopicsOnDelete();
+
+            });
+        }
     };
 
     editTopic = () => {
@@ -67,11 +94,11 @@ class TopicPills extends React.Component {
     componentDidUpdate(prevProps) {
 
 
-        if (prevProps.topics[0].id !== this.props.topics[0].id) {
+        if (prevProps.lesson.topics[0].id !== this.props.lesson.topics[0].id) {
 
             this.setState(
                 {
-                    topics: this.props.topics
+                    topics: this.props.lesson.topics
                 });
         }
 
@@ -88,7 +115,7 @@ class TopicPills extends React.Component {
 
                         <li onClick={() => this.props.selectTopic(topic)}
                             className={['nav-item nav-link', topic.id == this.props.selectedTopicId ? 'active' : ''].join(" ")}
-                            key={topic.id} style={{border: "1px solid #d3d3d3", marginLeft: "5px"}}>
+                            key={topic.id} style={{border: "1px solid #d3d3d3"}}>
                             <div className="row">
                                 <div className="col-5">{topic.title}</div>
                                 <div className="col-7">
@@ -96,7 +123,7 @@ class TopicPills extends React.Component {
                                         <i className="fas fa-pencil-alt"></i>
                                     </button>
                                     <span>       </span>
-                                    <button className="btn btn-danger" onClick={() => this.deleteTopic(topic.id)}>
+                                    <button className="btn btn-danger" onClick={(e) => this.deleteTopic(e, topic.id)}>
                                         <i className="fas fa-trash"></i>
                                     </button>
                                 </div>

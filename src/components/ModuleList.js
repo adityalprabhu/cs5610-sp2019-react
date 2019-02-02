@@ -1,6 +1,7 @@
 import React from 'react'
 import ModuleListItem from "./ModuleListItem";
 import CourseService from "../services/CourseService";
+import '../assets/moduleList.css'
 
 class ModuleList extends React.Component {
     constructor(props) {
@@ -13,6 +14,8 @@ class ModuleList extends React.Component {
         };
 
         this.titleChanged = this.titleChanged.bind(this);
+        this.deleteModule = this.deleteModule.bind(this);
+        this.createModule = this.createModule.bind(this);
     }
 
     createModule = () => {
@@ -38,44 +41,47 @@ class ModuleList extends React.Component {
                         ]
                     }
                 ]
+            },() => {
+                this.courseService.updateCourse(
+                    {
+                        id: this.props.course.id,
+                        title: this.props.course.title,
+                        modules: this.state.modules
+                    });
+
+                // var course = this.courseService.findCourseById(this.props.course.id)
+                // console.log(course);
             }
         );
-
-
-
-        // this.courseService.updateCourse(
-        //     {
-        //         id: this.props.course.id,
-        //         title: this.props.course.title,
-        //         modules: [
-        //             ...this.state.modules,
-        //             {
-        //                 title: 'New Module',
-        //                 id: (new Date()).getTime(),
-        //                 lessons: [
-        //                     {
-        //                         id: 1,
-        //                         title: "dummy"
-        //                     }
-        //                 ]
-        //             }
-        //         ]
-        //     })
     };
 
-    deleteModule = moduleId => {
-        console.log(moduleId);
+    deleteModule = (e, moduleId) => {
+        e.stopPropagation();
 
-        this.setState({
-            modules: this.state.modules.filter(
-                module => module.id !== moduleId
-            )
-        });
+        if(this.state.modules.length == 1){
+            alert("Can't delete for now as only one module left!")
+        }else {
+            this.setState({
+                modules: this.state.modules.filter(
+                    module => module.id !== moduleId
+                )
+            }, () => {
+                this.courseService.updateCourse(
+                    {
+                        id: this.props.course.id,
+                        title: this.props.course.title,
+                        modules: this.state.modules
+                    });
 
-        console.log(this.state.modules[0]);
-        this.props.deleteModule(moduleId);
+                this.props.resetAllOnDelete();
 
+                // var course = this.courseService.findCourseById(this.props.course.id)
+                // console.log(course);
+            });
+        }
     };
+
+
 
     titleChanged = (event) => {
 
@@ -99,7 +105,7 @@ class ModuleList extends React.Component {
 
     render() {
         return(
-            <div>
+            <div style={{marginTop: '10px'}} className="modules">
                 <ul className="list-group">
                     <li className="list-group-item">
                         <div className={"row"}>

@@ -18,80 +18,84 @@ class CourseEditor extends React.Component {
             module: course.modules[0],
             deleted: false,
             lesson: course.modules[0].lessons[0],
-            topic: course.modules[0].lessons[0].topics[0]
-        }
+            topic: course.modules[0].lessons[0].topics[0],
+            moduleDeleted: false
+        };
 
         this.props.shouldHide("ce");
     }
 
     selectModule = module => {
 
-        if(this.state.deleted) {
-            console.log("Inside delete")
-            this.setState({
-                module: this.state.course.modules[0]
-            });
-            this.state.deleted =  false;
-        }else{
-            console.log("inside delete else");
-            this.setState({
-                module: module,
-                lesson: module.lessons[0],
-                topic: module.lessons[0].topics[0]
-            });
+        console.log("in select module: " + module.id);
 
-            console.log(this.state)
-        }
-
-    };
-
-    deleteModule = moduleId => {
-        console.log("delete");
-        this.state.deleted = true;
         this.setState({
-            course: this.courseService.updateCourse({
-                id: this.state.course.id,
-                title: this.state.course.title,
-                modules: this.state.course.modules.filter(
-                    module => module.id !== moduleId
-                )
-            })
+            module: module,
+            lesson: module.lessons[0],
+            topic: module.lessons[0].topics[0]
         });
 
-        console.log("next read this");
-        console.log(this.state.course);
     };
+
+    resetAllOnDelete = () =>{
+        console.log("in reset all");
+
+        let thisCourse = this.courseService.findCourseById(this.state.course.id);
+
+        this.setState({
+            module: thisCourse.modules[0],
+            lesson: thisCourse.modules[0].lessons[0],
+            topics: thisCourse.modules[0].lessons[0].topics
+        });
+    };
+
+    resetAllLessonsOnDelete = () =>{
+        console.log("in reset lessons");
+
+        let thisCourse = this.courseService.findCourseById(this.state.course.id);
+
+        let thisModule = thisCourse.modules.find(
+            module => module.id == this.state.module.id
+        );
+
+        this.setState({
+            lesson: thisModule.lessons[0],
+            topics: thisModule.lessons[0].topics
+        });
+    };
+
+    resetAllTopicsOnDelete = () =>{
+        console.log("in reset topics");
+
+        let thisCourse = this.courseService.findCourseById(this.state.course.id);
+
+        let thisModule = thisCourse.modules.find(
+            module => module.id == this.state.module.id
+        );
+
+        let thisLesson = thisModule.lessons.find(
+            lesson => lesson.id == this.state.lesson.id
+        );
+
+        this.setState({
+            topics: thisLesson.topics
+        });
+    };
+
 
     selectLesson = lesson => {
         console.log("In select lesson" + lesson.id);
-        if(this.state.deleted) {
-            this.setState({
-                lesson: this.state.module[0]
-            });
-            this.state.deleted =  false;
-        }else{
-
             this.setState({
                 lesson: lesson,
                 topic: lesson.topics[0]
             });
-        }
-
     };
 
     selectTopic = topic => {
         console.log("In select topic" + topic.id);
-        if(this.state.deleted) {
-            this.setState({
-                topic: this.state.lesson[0]
-            });
-            this.state.deleted =  false;
-        }else{
-
             this.setState({
                 topic: topic,
             });
-        }
     };
 
     render() {
@@ -102,26 +106,26 @@ class CourseEditor extends React.Component {
                     <div className="col-md-4">
                         <ModuleList
                             selectModule={this.selectModule}
-                            deleteModule={this.deleteModule}
+                            resetAllOnDelete={this.resetAllOnDelete}
                             modules={this.state.course.modules}
                             selectedModuleId={this.state.module.id}
-                            course={this.state.course}
-                        />
+                            course={this.state.course}/>
                     </div>
-                    <div className="col-md" style={{border: '0.5px solid #d3d3d3'}}>
+                    <div className="col-md">
                         <LessonTabs
-                            lessons={this.state.module.lessons}
-                            deleteLesson = {this.deleteLesson}
+                            module={this.state.module}
+                            resetAllLessonsOnDelete = {this.resetAllLessonsOnDelete}
                             selectLesson={this.selectLesson}
                             selectedLessonId={this.state.lesson.id}
                             course={this.state.course}/>
                         <div>      </div>
                         <TopicPills
-                            topics={this.state.lesson.topics}
-                            deleteTopic= {this.deleteTopic}
+                            lesson={this.state.lesson}
+                            module={this.state.module}
                             selectTopic={this.selectTopic}
                             selectedTopicId={this.state.topic.id}
-                            course={this.state.course}/>
+                            course={this.state.course}
+                            resetAllTopicsOnDelete={this.resetAllTopicsOnDelete}/>
                         <WidgetList/>
                     </div>
                 </div>
@@ -129,4 +133,5 @@ class CourseEditor extends React.Component {
         )
     }
 }
-export default CourseEditor
+
+export default CourseEditor;

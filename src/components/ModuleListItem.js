@@ -11,7 +11,7 @@ const ModuleListItem = ({module, selectModule, deleteModule, selectedModuleId, e
                     <i className="fas fa-pencil-alt"></i>
                 </button>
                 <span>       </span>
-                <button className="btn btn-danger" onClick={() => deleteModule(module.id)}>
+                <button className="btn btn-danger" onClick={(e) => deleteModule(e, module.id)}>
                     <i className="fas fa-trash"></i>
                 </button>
             </div>

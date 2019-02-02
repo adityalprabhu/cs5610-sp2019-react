@@ -69,6 +69,44 @@ class CourseService {
 
 
         return(this.courses[courseIndex])
-    }
+    };
+
+    updateModule = (updateCourse, updateModule) => {
+        let courseIndex= this.courses.findIndex(
+            course => course.id === updateCourse.id
+        );
+
+        let moduleIndex = this.courses[courseIndex].modules.findIndex(
+            module => module.id === updateModule.id
+        );
+
+        this.courses[courseIndex].modules[moduleIndex].title = updateModule.title;
+        this.courses[courseIndex].modules[moduleIndex].lessons = updateModule.lessons;
+
+
+        return(this.courses[courseIndex].modules[moduleIndex])
+    };
+
+
+    updateLesson = (updateCourse, updateModule, updateLesson) => {
+        let courseIndex= this.courses.findIndex(
+            course => course.id === updateCourse.id
+        );
+
+        let moduleIndex = this.courses[courseIndex].modules.findIndex(
+            module => module.id === updateModule.id
+        );
+
+        let lessonIndex = this.courses[courseIndex].modules[moduleIndex].lessons.findIndex(
+            lesson => lesson.id === updateLesson.id
+        );
+
+        this.courses[courseIndex].modules[moduleIndex].lessons[lessonIndex].title = updateLesson.title;
+        this.courses[courseIndex].modules[moduleIndex].lessons[lessonIndex].topics = updateLesson.topics;
+
+
+        return(this.courses[courseIndex].modules[moduleIndex].lessons[lessonIndex])
+    };
+
 }
 export default CourseService
