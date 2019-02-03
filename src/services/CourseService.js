@@ -6,6 +6,19 @@ class CourseService {
         this.courses = courses;
     }
 
+    createWidget = (topicId, widget) => {};
+
+    findWidgets = (topicId) => {};
+
+    findWidget = (widgetId) => {};
+
+    updateWidget = (widgetId, widget) => {};
+
+    deleteWidget= (widgetId) => {};
+
+    
+
+
     addCourse = course => {
 
         var newCourse = {
