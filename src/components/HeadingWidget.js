@@ -2,12 +2,12 @@ import React from 'react'
 
 const HeadingWidget = ({widget, updateWidget}) =>
     <div>
-        <h2>Heading Widget</h2>
         <select
             onChange={event => {
                 widget.size = parseInt(event.target.value)
                 updateWidget(widget)
             }}
+            value={widget.size}
             className="form-control">
             <option value="1">Heading 1</option>
             <option value="2">Heading 2</option>
@@ -15,13 +15,25 @@ const HeadingWidget = ({widget, updateWidget}) =>
             <option value="4">Heading 4</option>
             <option value="5">Heading 5</option>
         </select>
+
         <input
             value={widget.text}
             onChange={event => {
                 widget.text = event.target.value
                 updateWidget(widget)
             }}
-            className="form-control"/>
+            className="form-control"
+        style={{marginTop: '10px'}}/>
+
+        <input
+            value={widget.title}
+            className="form-control"
+            onChange={event => {
+                widget.title = event.target.value
+                updateWidget(widget)
+            }}
+            style={{marginTop: '10px'}}/>
+
         <h3>Preview</h3>
         {
             widget.size === 1 && <h1>{widget.text}</h1> ||

@@ -28,8 +28,12 @@ class CourseEditor extends React.Component {
             moduleDeleted: false
         };
 
+
+
         this.props.shouldHide("ce");
     }
+
+
 
     selectModule = module => {
 
@@ -133,7 +137,12 @@ class CourseEditor extends React.Component {
                             course={this.state.course}
                             resetAllTopicsOnDelete={this.resetAllTopicsOnDelete}/>
                         <Provider store={store}>
-                            <WidgetListContainer/>
+                            <WidgetListContainer
+                                course={this.state.course}
+                                lesson={this.state.lesson}
+                                module={this.state.module}
+                                topic={this.state.topic}
+                                widgets={this.state.topic.widgets}/>
                         </Provider>
                     </div>
                 </div>

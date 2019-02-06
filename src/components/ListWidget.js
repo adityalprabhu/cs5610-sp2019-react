@@ -1,12 +1,13 @@
 import React from 'react'
 
-const ParagraphWidget = ({widget, updateWidget}) =>
+const ListWidget = ({widget, updateWidget}) =>
     <div>
 
         <textarea id="listItems"
                   value={widget.text}
                   onChange={event => {
-                      widget.text = event.target.value
+                      widget.text = event.target.value;
+                      widget.listItems = widget.text.split(/\n/);
                       updateWidget(widget)
                   }}
                   className="form-control"
@@ -22,7 +23,12 @@ const ParagraphWidget = ({widget, updateWidget}) =>
             style={{marginTop: '10px'}}/>
 
         <h3>Preview</h3>
-        <p>{widget.text}</p>
+        <ul>
+            {
+                widget.listItems.map(item =>
+                <li>{item}</li>)
+        }
+        </ul>
     </div>;
 
-export default ParagraphWidget;
+export default ListWidget;

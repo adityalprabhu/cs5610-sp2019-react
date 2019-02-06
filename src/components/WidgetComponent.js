@@ -1,27 +1,35 @@
 import React from 'react'
 import HeadingWidget from './HeadingWidget'
 import ImageWidget from './ImageWidget'
+import ParagraphWidget from "./ParagraphWidget";
+import ListWidget from "./ListWidget";
 
-const WidgetComponent = ({widget, deleteWidget, updateWidget}) =>
+const WidgetComponent = ({widget, deleteWidget, updateWidget, moveWidgetUp, moveWidgetDown, index, noOfWidgets}) =>
     <div className="card" id="headingWidget" name="dynamicWidget">
         <div className="card-body">
             {/*<button onClick={() => deleteWidget(widget)}>Delete</button>*/}
             <div className="row">
                 <div className="col-sm-7">
-                    <h5 className="card-title">Heading Widget</h5>
+                    <h5 className="card-title">{widget.type} Widget</h5>
                 </div>
                 <div className="row col-sm-5">
+                    {
+                        index !== 0 &&
                     <div className="col-sm-2 text-center" style={{padding: '1px'}}>
-                        <button className="icon">
+                        <button className="icon" onClick={() => moveWidgetUp(widget)}>
                             <i className="fas fa-arrow-up" />
                         </button>
                     </div>
-                    <div className="col-sm-2 text-center" style={{padding: '1px'}}>
-                        <button className="icon">
-                            <i className="fas fa-arrow-down" />
-                        </button>
-                    </div>
-                    <div className="col-sm-6">
+                    }
+                    {
+                        index !== noOfWidgets-1 &&
+                        <div className="col-sm-2 text-center" style={{padding: '1px'}}>
+                            <button className="icon" onClick={() => moveWidgetDown(widget)}>
+                                <i className="fas fa-arrow-down" />
+                            </button>
+                        </div>
+
+                    } <div className="col-sm-6">
                         <select className="form-control" id="widgetType"
                                 required="required" style={{width: '100%'}}
                                 value={widget.type}
@@ -43,6 +51,7 @@ const WidgetComponent = ({widget, deleteWidget, updateWidget}) =>
                     </div>
                 </div>
             </div>
+
             {/*<select id="widgetType" required="required"*/}
             {/*onChange={(event) => {*/}
             {/*widget.type = event.target.value;*/}
@@ -59,7 +68,16 @@ const WidgetComponent = ({widget, deleteWidget, updateWidget}) =>
                     widget={widget}/>
                 ||
                 widget.type==='IMAGE' &&
-                <ImageWidget   widget={widget}/>
+                <ImageWidget   widget={widget}
+                               updateWidget={updateWidget}/>
+                ||
+                widget.type==='PARAGRAPH' &&
+                <ParagraphWidget   widget={widget}
+                               updateWidget={updateWidget}/>
+                ||
+                widget.type==='LIST' &&
+                <ListWidget   widget={widget}
+                              updateWidget={updateWidget}/>
             }
         </div>
     </div>;
