@@ -1,12 +1,14 @@
 
 import React, {Component} from 'react'
 import WidgetComponent from './WidgetComponent'
+import '../assets/moduleList.css'
+
 class WidgetList extends Component {
 
     constructor(props){
         super(props);
         props.loadWidgets(this.props.widgets,this.props.topic, this.props.course, this.props.module, this.props.lesson)
-        console.log(props)
+        // console.log(props)
 
     }
 
@@ -14,12 +16,45 @@ class WidgetList extends Component {
         this.props.loadWidgets(this.props.widgets,this.props.topic, this.props.course, this.props.module, this.props.lesson)
         // console.log(this.props)
     }
+
+    togglePreview = (e) => {
+        let widgetComponent = document.getElementById('widgetComponent')
+        if(e.target.checked){
+            widgetComponent.classList.add('hide')
+        }else{
+            widgetComponent.classList.remove('hide')
+        }
+    };
+
     render()
     {
         return (
             <div>
+                <div style={{marginTop: '5%'}}>
+                    <div>
+                        <div className="row widget-action-bar">
+                            <div className="col-sm-8" />
+                            <div className="col-sm-4 content">
+                             <span><button
+                                 className="btn btn-primary"
+                                 onClick={() => this.props.save()}>
+                                 Save
+                             </button></span>
+                                <span className="float-right">Preview</span>
+                                <span className="float-right">
+                                <label className="switch">
+                                   <input type="checkbox" id={"previewBtn"} onChange={event => {
+                                       this.togglePreview(event)
+                                   }}/>
+                                     <span className="slider round"></span>
+                                 </label>
+                             </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <h1>Widget List {this.props.widgets.length}</h1>
-                <div className="list-group">
+                <div className="list-group" id={"widgetComponent"}>
                     {
                         this.props.widgets.map((widget, index) =>
                             <WidgetComponent
@@ -35,8 +70,10 @@ class WidgetList extends Component {
                     }
                     <button
                         onClick={() => this.props.addWidget(this.props.topic.id)}
-                        className="btn btn-success">
-                        Add
+                        className="btn btn-success"
+                        style={{marginTop: "10px"}}>
+                        Add Widget
+                        <i className={"fas fa-plus"} style={{marginLeft: "5px"}}></i>
                     </button>
                 </div>
             </div>

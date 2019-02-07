@@ -52,6 +52,15 @@ const dispatchToPropertyMapper = dispatch => ({
             type: 'FIND_WIDGET',
             topicId: topicId
         }),
+    save: () =>
+        dispatch({
+            type: 'SAVE'
+        }),
+    togglePreview: preview =>
+        dispatch({
+            type: 'PREVIEW',
+            preview: preview
+        }),
 });
 
 const WidgetListContainer = connect(

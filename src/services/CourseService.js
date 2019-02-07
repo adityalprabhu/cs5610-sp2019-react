@@ -6,29 +6,21 @@ class CourseService {
         this.courses = courses;
     }
 
-    createWidget = (topicObj, widget) => {
-        console.log("inside create widget")
-        console.log(topicObj)
-        console.log(widget)
-        let widgets =[];
-
+    createWidget = (topicId, widget) => {
 
         for(let course of this.courses) {
             for(let module of course.modules) {
                 for(let lesson of module.lessons) {
                     for(let topic of lesson.topics) {
-                        // console.log(courses[c].modules[m].lessons[l].topics[t].id)
-                        // console.log(topic.id)
-                        if(topic.id == topicObj.topicId) {
+                        if(topic.id == topicId) {
                             topic.widgets.push(widget);
-                            return topic.widgets
+                            return topic.widgets.slice(0)
                         }
                     }
                 }
             }
         }
-        console.log(widgets);
-        return widgets
+        return []
     };
 
     findWidgets = (topicId) => {
@@ -36,8 +28,6 @@ class CourseService {
             for(let module of course.modules) {
                 for(let lesson of module.lessons) {
                     for(let topic of lesson.topics) {
-                        // console.log(courses[c].modules[m].lessons[l].topics[t].id)
-                        // console.log(topic.id)
                         if(topic.id == topicId) {
                             return topic.widgets
                         }
@@ -81,12 +71,10 @@ class CourseService {
                 }
             }
         }
-        // console.log(this.courses)
         return this.findWidget(widgetId)
     };
 
     deleteWidget= (widgetId) => {
-
 
         for(let course of this.courses) {
             for(let module of course.modules) {
@@ -99,7 +87,6 @@ class CourseService {
                 }
             }
         }
-        // console.log(this.courses);
         return this.findWidget(widgetId)
     };
 

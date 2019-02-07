@@ -22,7 +22,7 @@ form{
 }
 
 .card{
-    margin-top: 5% !important;
+    /*margin-top: 5% !important;*/
     height:auto;
 }
 
@@ -161,17 +161,6 @@ input:checked + .slider:before {
     border: 1px solid #d3d3d3;
 }
 
-/*.nav > li{*/
-    /*background-color: #333333 !important;*/
-    /*color: white;*/
-/*}*/
-
-/*.list-group > li{*/
-    /*background-color: #333333 !important;*/
-    /*color: white;*/
-    /*border-color: lightgrey;*/
-/*}*/
-
 .list-group > li.active{
     background-color: #007bff !important;
     color: white;
@@ -181,4 +170,9 @@ input:checked + .slider:before {
 .nav-tabs .nav-pills.nav-link.active{
     background-color: #007bff !important;
     color: white;
+}
+
+#widgetComponent.hide .non-preview-container
+{
+    display:none;
 }

@@ -28,29 +28,27 @@ const widgets =
             text: '',
             listItems: []
         }
-
     ];
 
-const widgetReducer = (state ={widgets:[]}, action) => {
+const widgetReducer = (state ={widgets:[], preview: false}, action) => {
 
     let courseService = new CourseService();
 
     switch(action.type) {
 
         case 'DELETE_WIDGET':
-            courseService.deleteWidget(action.widget.id)
+            courseService.deleteWidget(action.widget.id);
             return {
-                // widgets: courseService.deleteWidget(action.widget.id)
                 widgets: state.widgets.filter(widget => widget.id !== action.widget.id)
             };
 
         case 'CREATE_WIDGET':
             return {
-                widgets: courseService.createWidget(action, {
+                widgets: courseService.createWidget(action.topicId, {
                     id: (new Date()).getTime(),
                     title: 'Widget ' + ((new Date()).getTime()%10),
                     type: 'HEADING',
-                    text: 'New Widget',
+                    text: '',
                     size: 1
                 })
             };
@@ -83,7 +81,8 @@ const widgetReducer = (state ={widgets:[]}, action) => {
         case 'LOAD_WIDGETS':
             return {
                 widgets: courseService.findAllWidgets(action.course, action.module, action.lesson, action.topic),
-                topic:action.topic
+                topic:action.topic,
+                preview:state.preview
             };
 
         case 'FIND_WIDGET':
@@ -97,8 +96,22 @@ const widgetReducer = (state ={widgets:[]}, action) => {
             };
 
         case 'FIND_ALL_WIDGETS':
-            break;
+            return {
+                widgets: courseService.findAllWidgets(action.course, action.module, action.lesson, action.topic),
+                topic:action.topic
+            };
 
+        case 'SAVE':
+            return{
+                widgets:state.widgets
+            };
+
+        case 'PREVIEW':
+            console.log("in preview");
+            console.log(state.preview);
+            return{
+                widgets: state.widgets
+            };
         default:
             return state;
     }
