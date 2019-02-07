@@ -24,12 +24,13 @@ const ListWidget = ({widget, updateWidget}) =>
                 <select
                     id={"listType"}
                     onChange={event => {
-                        widget.listType = parseInt(event.target.value)
+                        widget.listType = parseInt(event.target.value);
                         updateWidget(widget)
                     }}
                     value={widget.listType}
                     className="form-control"
                     style={{marginTop: '10px'}}>
+                    <option value="-1">Select List Type</option>
                     <option value="0">Unordered List</option>
                     <option value="1">Ordered List</option>
                 </select>
