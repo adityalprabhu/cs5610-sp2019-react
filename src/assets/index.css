@@ -1,0 +1,12 @@
+nav li{
+    margin-left: 10px;
+}
+
+nav a{
+    color: white !important;
+}
+
+nav a:hover{
+    color: #007bff !important;
+}
+
