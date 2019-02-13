@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {BrowserRouter as Router, Link, Route, Switch} from 'react-router-dom'
+import {BrowserRouter as Router, Link, Route, Switch, Redirect} from 'react-router-dom'
 import UserService from "../services/UserService";
 
 
@@ -10,9 +10,10 @@ class Login extends Component {
 
         this.state = {
             username : "",
-            password: ""
+            password: "",
+            loggedIn: false,
+            courses: []
         };
-
         this.userService = new UserService();
         this.handleChange = this.handleChange.bind(this);
     }
@@ -25,17 +26,24 @@ class Login extends Component {
     logUserIn = (e) => {
         e.preventDefault();
         const { username, password } = this.state;
-
+        var self = this;
         this.userService
             .login(username, password)
             .then(function(res){
-                console.log(res)
+                console.log(res);
+                self.setState({
+                    loggedIn : true,
+                });
             });
     };
 
     render() {
-        const { username, password, submitted } = this.state;
+        const { username, password, loggedIn, courses } = this.state;
+        if (loggedIn === true) {
+            return <Redirect to='/courseList' />
+        }
         return (
+
             <div className="container">
 
                 <h1>Sign In</h1>

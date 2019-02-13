@@ -6,8 +6,8 @@ import '../assets/moduleList.css'
 class ModuleList extends React.Component {
     constructor(props) {
         super(props);
-        this.courseService = new CourseService();
 
+        this.courseService = CourseService.getInstance();
         this.state = {
             modules: this.props.modules,
             disableEditTitle: true

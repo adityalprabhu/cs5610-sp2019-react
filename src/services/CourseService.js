@@ -1,10 +1,56 @@
 import courses from './courses.json'
 
 class CourseService {
+    static myInstance = null;
+    static courses;
 
     constructor() {
-        this.courses = courses;
+        // this.courses = [];
+        this.apiUrl = "http://localhost:8080";
+        // this.courses = courses;
+        var self = this;
+
+        if(CourseService.myInstance == null){
+            this.findAllCourses()
+                .then(function(courses){
+                    self.courses = courses;
+                })
+        }
     }
+
+    static getInstance() {
+        console.log("in get instance")
+        if (CourseService.myInstance == null) {
+            CourseService.myInstance =
+                new CourseService();
+        }
+        return this.myInstance;
+    }
+
+
+
+    findAllCourses = () => {
+        const requestOptions = {
+            method: 'GET',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json'
+            }
+
+        };
+        var self = this;
+
+        return fetch(this.apiUrl+'/api/courses', requestOptions)
+            .then(this.handleResponse)
+            .then(function(response) {
+
+                self.courses = response;
+                console.log(response);
+                console.log(self.courses);
+                return response;
+
+            });
+    };
+
 
     createWidget = (topicId, widget) => {
 
@@ -118,23 +164,22 @@ class CourseService {
         return allWidgets.slice(0);
     };
 
-
-    addCourse = course => {
+    addCourse = (course) => {
 
         var newCourse = {
-            id: (new Date()).getTime(),
-            title: course.title,
+            id: parseInt((new Date()).getTime()/1000),
+            title: course.title == "" ? "New Course" : course.title,
             modules: [
                 {
-                    id: "1",
+                    id: (new Date()).getTime()/1000,
                     title: "Module 1",
                     lessons: [
                         {
-                            id:"1",
+                            id:(new Date()).getTime()/1000,
                             title: "Lesson 1",
                             topics: [
                                 {
-                                    id:"1",
+                                    id:(new Date()).getTime()/1000,
                                     title: "Topic 1"
                                 }
                             ]
@@ -144,17 +189,65 @@ class CourseService {
             ]
         };
 
-        if(newCourse.title == ""){
-            newCourse.title = "New Course"
-        }
 
-        this.courses.push(newCourse);
-        return this.courses
+        const requestOptions = {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json'},
+            body: JSON.stringify(newCourse)
+
+        };
+        var self = this;
+        return fetch(this.apiUrl+'/api/courses', requestOptions)
+            .then(this.handleResponse)
+            .then(function(response) {
+                self.courses.push(response);
+                return self.courses;
+            });
     };
+
+    //
+    // addCourse = course => {
+    //
+    //     var newCourse = {
+    //         id: (new Date()).getTime()/100000,
+    //         title: course.title == "" ? "New Course" : course.title,
+    //         modules: [
+    //             {
+    //                 id: (new Date()).getTime()/100000,
+    //                 title: "Module 1",
+    //                 lessons: [
+    //                     {
+    //                         id:(new Date()).getTime()/100000,
+    //                         title: "Lesson 1",
+    //                         topics: [
+    //                             {
+    //                                 id:(new Date()).getTime()/100000,
+    //                                 title: "Topic 1"
+    //                             }
+    //                         ]
+    //                     }
+    //                 ]
+    //             }
+    //         ]
+    //     };
+    //
+    //     var self = this;
+    //
+    //     this.addCourseWebService(newCourse)
+    //         .then(newCourse => {
+    //             self.courses.push(newCourse);
+    //             console.log(self.courses);
+    //
+    //             return self.courses;
+    //         });
+    //     // this.courses.push(newCourse);
+    // };
 
 
     findCourseById = courseId => {
 
+        console.log(this.courses);
         return(this.courses.find(
             course => course.id === courseId
         ));
@@ -162,15 +255,30 @@ class CourseService {
 
     };
 
+    //
+    // findAllCourses = () => {
+    //     return this.courses;
+    // };
 
-    findAllCourses = () =>
-        this.courses;
+    deleteCourse = delCourse => {
 
-
-    deleteCourse = deleteCourse =>
-        this.courses = this.courses.filter(
-            course => course.id !== deleteCourse.id
+        const requestOptions = {
+            method: 'DELETE',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json'}
+        };
+        var self = this;
+        console.log(delCourse.id)
+        self.courses = self.courses.filter(
+            course => course.id !== delCourse.id
         );
+        return fetch(this.apiUrl+'/api/courses/' + delCourse.id, requestOptions)
+            .then(this.handleResponse)
+            .then(function(response) {
+                return self.courses;
+            });
+    };
+
 
     updateCourse = updateCourse => {
         var courseIndex= this.courses.findIndex(
@@ -222,24 +330,43 @@ class CourseService {
     };
 
     findAllWidgets = (course1, module1, lesson1, topic1) => {
-        let courseIndex= this.courses.findIndex(
-            course => course.id === course1.id
-        );
+        // let courseIndex= this.courses.findIndex(
+        //     course => course.id === course1.id
+        // );
+        //
+        // let moduleIndex = this.courses[courseIndex].modules.findIndex(
+        //     module => module.id === module1.id
+        // );
+        //
+        // let lessonIndex = this.courses[courseIndex].modules[moduleIndex].lessons.findIndex(
+        //     lesson => lesson.id === lesson1.id
+        // );
+        //
+        // let topicIndex = this.courses[courseIndex].modules[moduleIndex].lessons[lessonIndex].topics.findIndex(
+        //     topic => topic.id === topic1.id
+        // );
 
-        let moduleIndex = this.courses[courseIndex].modules.findIndex(
-            module => module.id === module1.id
-        );
+        // return this.courses[courseIndex].modules[moduleIndex].lessons[lessonIndex].topics[topicIndex].widgets
+        return courses[0].modules[0].lessons[0].topics[0].widgets
+    };
 
-        let lessonIndex = this.courses[courseIndex].modules[moduleIndex].lessons.findIndex(
-            lesson => lesson.id === lesson1.id
-        );
+    handleResponse = (response) => {
+        return response.text().then(text => {
+            const data = text && JSON.parse(text);
+            if (!response.ok) {
+                if (response.status === 401) {
+                    // auto logout if 401 response returned from api
+                    // logout();
+                    // location.reload(true);
+                    console.log("401 Error");
+                }
 
-        let topicIndex = this.courses[courseIndex].modules[moduleIndex].lessons[lessonIndex].topics.findIndex(
-            topic => topic.id === topic1.id
-        );
+                const error = (data && data.message) || response.statusText;
+                return Promise.reject(error);
+            }
 
-        return this.courses[courseIndex].modules[moduleIndex].lessons[lessonIndex].topics[topicIndex].widgets
-
+            return data;
+        });
     }
 
 }

@@ -10,6 +10,7 @@ class Home extends Component {
 
     render() {
         return (
+
             <Router>
                 <div>
                     <nav className="navbar navbar-expand navbar-dark bg-dark">

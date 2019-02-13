@@ -9,6 +9,7 @@ class UserService {
 
         const requestOptions = {
             method: 'POST',
+            credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username, password })
         };
@@ -38,6 +39,25 @@ class UserService {
                 localStorage.setItem('user', JSON.stringify(user));
 
                 return user;
+            });
+    };
+
+    findAllCourses = () => {
+        const requestOptions = {
+            method: 'GET',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json'
+            }
+
+        };
+
+        return fetch(this.apiUrl+'/api/courses', requestOptions)
+            .then(this.handleResponse)
+            .then(courses => {
+                // store user details and jwt token in local storage to keep user logged in between page refreshes
+                // localStorage.setItem('user', JSON.stringify(user));
+
+                return courses;
             });
     };
 

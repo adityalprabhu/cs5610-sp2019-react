@@ -7,29 +7,61 @@ import '../assets/courseList.css'
 import CourseEditor from "./CourseEditor";
 
 class CourseList extends Component {
-    constructor() {
-        super();
-        this.courseService = new CourseService();
+    constructor(props) {
+        super(props);
+        this.courseService = CourseService.getInstance()
+        var self = this;
+        // console.log(this.courseService.findAllCourses());
+
+        this.courseService
+            .findAllCourses()
+            .then(courses => {
+                self.setState({
+                    courses: courses
+                });
+            });
+
         this.state = {
-            courses: this.courseService.findAllCourses(),
+            // courses: this.courseService.findAllCourses(),
             courseTitle: '',
             courseOwner: '',
             shouldHide: false,
             tableView: true
         };
+
+
+
     }
 
-    deleteCourse = course =>
-        this.setState({
-            courses: this.courseService.deleteCourse(course)
-        });
+    deleteCourse = course => {
+        var self = this;
 
-    addCourse = () =>
-        this.setState({
-            courses: this.courseService.addCourse({title : this.state.courseTitle}),
-            courseTitle: '',
-            courseOwner: ''
-        });
+        this.courseService
+            .deleteCourse(course)
+            .then(function(courses){
+                self.setState({
+                    courses: courses,
+                    courseTitle: '',
+                    courseOwner: ''
+                });
+            });
+
+
+    };
+
+    addCourse = () => {
+        var self = this;
+        this.courseService
+            .addCourse({title : this.state.courseTitle})
+            .then(function(courses){
+                console.log(courses);
+                self.setState({
+                    courses: courses,
+                    courseTitle: '',
+                    courseOwner: ''
+                });
+            })
+    };
 
     shouldHide = (page) => {
 
@@ -104,7 +136,7 @@ class CourseList extends Component {
                                        addCourse={this.addCourse}
                                        deleteCourse={this.deleteCourse}
                                        courses={this.state.courses}
-                                   shouldHide={this.shouldHide}/>}/>
+                                       shouldHide={this.shouldHide}/>}/>
                         <Route path="/course/:id"
                                exact
                                render={(props) => <CourseEditor {...props} courses={this.state.courses} shouldHide={this.shouldHide} />} />
