@@ -61,7 +61,7 @@ class TopicPills extends React.Component {
     deleteTopic = (e, topicId) => {
         e.stopPropagation();
 
-        if(this.state.topics.length == 1){
+        if(this.state.topics.length == 0){
             alert("Can't delete for now as only one topic left!")
         }else {
             this.setState({
@@ -94,14 +94,15 @@ class TopicPills extends React.Component {
     componentDidUpdate(prevProps) {
 
 
-        if (prevProps.lesson.topics[0].id !== this.props.lesson.topics[0].id) {
+        if(prevProps.lesson.topics[0] != null) {
+            if (prevProps.lesson.topics[0].id !== this.props.lesson.topics[0].id) {
 
-            this.setState(
-                {
-                    topics: this.props.lesson.topics
-                });
+                this.setState(
+                    {
+                        topics: this.props.lesson.topics
+                    });
+            }
         }
-
 
 
     }
@@ -111,7 +112,7 @@ class TopicPills extends React.Component {
 
             <ul className="nav nav-pills" style={{marginTop: "15px"}}>
                 {
-                    this.state.topics.map(topic =>
+                    (this.state.topics !=null) && this.state.topics.map(topic =>
 
                         <li onClick={() => this.props.selectTopic(topic)}
                             className={['nav-item nav-link', topic.id == this.props.selectedTopicId ? 'active' : ''].join(" ")}

@@ -25,7 +25,7 @@ class CourseEditor extends React.Component {
             module: course.modules[0],
             deleted: false,
             lesson: course.modules[0].lessons[0],
-            topic: course.modules[0].lessons[0].topics[0],
+            topic: course.modules[0].lessons[0] == null ? null : course.modules[0].lessons[0].topics[0],
             moduleDeleted: false
         };
 
@@ -56,7 +56,7 @@ class CourseEditor extends React.Component {
         this.setState({
             module: thisCourse.modules[0],
             lesson: thisCourse.modules[0].lessons[0],
-            topics: thisCourse.modules[0].lessons[0].topics
+            topics: thisCourse.modules[0].lessons[0] == null ? null : thisCourse.modules[0].lessons[0].topics
         });
     };
 
@@ -134,7 +134,7 @@ class CourseEditor extends React.Component {
                             lesson={this.state.lesson}
                             module={this.state.module}
                             selectTopic={this.selectTopic}
-                            selectedTopicId={this.state.topic.id}
+                            selectedTopicId={this.state.topic == null? null : this.state.topic.id}
                             course={this.state.course}
                             resetAllTopicsOnDelete={this.resetAllTopicsOnDelete}/>
                         <Provider store={store}>
@@ -143,7 +143,7 @@ class CourseEditor extends React.Component {
                                 lesson={this.state.lesson}
                                 module={this.state.module}
                                 topic={this.state.topic}
-                                widgets={this.state.topic.widgets}/>
+                                widgets={this.state.topic == null? null : this.state.topic.widgets}/>
                         </Provider>
                     </div>
                 </div>

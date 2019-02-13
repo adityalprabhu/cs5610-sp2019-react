@@ -43,12 +43,117 @@ class CourseService {
             .then(this.handleResponse)
             .then(function(response) {
 
+
                 self.courses = response;
                 console.log(response);
                 console.log(self.courses);
                 return response;
 
             });
+    };
+
+
+    addCourse = (course) => {
+
+        var newCourse = {
+            id: parseInt((new Date()).getTime()/1000),
+            title: course.title == "" ? "New Course" : course.title,
+            modules: [
+                {
+                    id: parseInt((new Date()).getTime()/1000),
+                    title: "Module 1",
+                    lessons: [
+                        {
+                            id:parseInt((new Date()).getTime()/1000),
+                            title: "Lesson 1",
+                            topics: [
+                                {
+                                    id:(new Date()).getTime()/1000,
+                                    title: "Topic 1"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        };
+
+        const requestOptions = {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json'},
+            body: JSON.stringify(newCourse)
+
+        };
+        var self = this;
+        return fetch(this.apiUrl+'/api/courses', requestOptions)
+            .then(this.handleResponse)
+            .then(function(response) {
+                self.courses.push(response);
+                return self.courses;
+            });
+    };
+
+
+    deleteCourse = delCourse => {
+
+        const requestOptions = {
+            method: 'DELETE',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json'}
+        };
+        var self = this;
+        // console.log(delCourse.id);
+        self.courses = self.courses.filter(
+            course => course.id !== delCourse.id
+        );
+        return fetch(this.apiUrl+'/api/courses/' + delCourse.id, requestOptions)
+            .then(this.handleResponse)
+            .then(function(response) {
+                return self.courses;
+            });
+    };
+
+
+    createModule = (courseId) => {
+
+        var newModule = {
+            title: 'New Module',
+            id: parseInt((new Date()).getTime()/1000),
+            lessons: [
+                {
+                    "id": parseInt((new Date()).getTime()/1000),
+                    "title": "Lesson 1",
+                    "topics": [
+                        {
+                            "id": parseInt((new Date()).getTime()/1000),
+                            "title": "Topic 1"
+                        }
+                    ]
+                }
+            ]
+        };
+
+        const requestOptions = {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json'},
+            body: JSON.stringify(newModule)
+
+        };
+        let self = this;
+        let updatedCourse = this.findCourseById(courseId);
+        return fetch(this.apiUrl+'/api/courses/'+courseId+'/modules', requestOptions)
+            .then(this.handleResponse)
+            .then(function(response) {
+                console.log(response);
+                let modules = updatedCourse.modules;
+                modules.push(response);
+                console.log(modules);
+                return modules;
+            });
+
+
     };
 
 
@@ -164,47 +269,7 @@ class CourseService {
         return allWidgets.slice(0);
     };
 
-    addCourse = (course) => {
 
-        var newCourse = {
-            id: parseInt((new Date()).getTime()/1000),
-            title: course.title == "" ? "New Course" : course.title,
-            modules: [
-                {
-                    id: (new Date()).getTime()/1000,
-                    title: "Module 1",
-                    lessons: [
-                        {
-                            id:(new Date()).getTime()/1000,
-                            title: "Lesson 1",
-                            topics: [
-                                {
-                                    id:(new Date()).getTime()/1000,
-                                    title: "Topic 1"
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        };
-
-
-        const requestOptions = {
-            method: 'POST',
-            credentials: 'include',
-            headers: { 'Content-Type': 'application/json'},
-            body: JSON.stringify(newCourse)
-
-        };
-        var self = this;
-        return fetch(this.apiUrl+'/api/courses', requestOptions)
-            .then(this.handleResponse)
-            .then(function(response) {
-                self.courses.push(response);
-                return self.courses;
-            });
-    };
 
     //
     // addCourse = course => {
@@ -260,24 +325,7 @@ class CourseService {
     //     return this.courses;
     // };
 
-    deleteCourse = delCourse => {
 
-        const requestOptions = {
-            method: 'DELETE',
-            credentials: 'include',
-            headers: { 'Content-Type': 'application/json'}
-        };
-        var self = this;
-        console.log(delCourse.id)
-        self.courses = self.courses.filter(
-            course => course.id !== delCourse.id
-        );
-        return fetch(this.apiUrl+'/api/courses/' + delCourse.id, requestOptions)
-            .then(this.handleResponse)
-            .then(function(response) {
-                return self.courses;
-            });
-    };
 
 
     updateCourse = updateCourse => {

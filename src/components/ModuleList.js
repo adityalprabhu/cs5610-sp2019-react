@@ -2,12 +2,14 @@ import React from 'react'
 import ModuleListItem from "./ModuleListItem";
 import CourseService from "../services/CourseService";
 import '../assets/moduleList.css'
+import ModuleService from "../services/ModuleService";
 
 class ModuleList extends React.Component {
     constructor(props) {
         super(props);
 
         this.courseService = CourseService.getInstance();
+        this.moduleService = ModuleService.getInstance();
         this.state = {
             modules: this.props.modules,
             disableEditTitle: true
@@ -20,40 +22,17 @@ class ModuleList extends React.Component {
 
     createModule = () => {
 
-        this.setState(
-            {
-                modules: [
-                    ...this.state.modules,
-                    {
-                        title: 'New Module',
-                        id: (new Date()).getTime(),
-                        lessons: [
-                            {
-                                "id": 1,
-                                "title": "dummy",
-                                "topics": [
-                                    {
-                                        "id": 1,
-                                        "title": "topic1"
-                                    }
-                                ]
-                            }
-                        ]
-                    }
-                ]
-            },() => {
-                this.courseService.updateCourse(
-                    {
-                        id: this.props.course.id,
-                        title: this.props.course.title,
-                        modules: this.state.modules
-                    });
-
-                // var course = this.courseService.findCourseById(this.props.course.id)
-                // console.log(course);
-            }
-        );
+        var self = this;
+        this.moduleService
+            .createModule(this.props.course.id)
+            .then(function(updated_modules){
+                self.setState({
+                    modules: updated_modules
+                })
+            })
     };
+
+
 
     deleteModule = (e, moduleId) => {
         e.stopPropagation();
@@ -61,23 +40,37 @@ class ModuleList extends React.Component {
         if(this.state.modules.length == 1){
             alert("Can't delete for now as only one module left!")
         }else {
-            this.setState({
-                modules: this.state.modules.filter(
-                    module => module.id !== moduleId
-                )
-            }, () => {
-                this.courseService.updateCourse(
-                    {
-                        id: this.props.course.id,
-                        title: this.props.course.title,
-                        modules: this.state.modules
-                    });
+            var self = this;
+            this.moduleService
+                .deleteModule(moduleId, this.state.modules)
+                .then(function(newModules){
+                    self.setState({
+                        modules: newModules,
+                        id: self.props.course.id,
+                        title: self.props.course.title,
+                        modules: newModules
+                    })
+                });
 
-                this.props.resetAllOnDelete();
+            this.props.resetAllOnDelete();
 
-                // var course = this.courseService.findCourseById(this.props.course.id)
-                // console.log(course);
-            });
+            // this.setState({
+            //     modules: this.state.modules.filter(
+            //         module => module.id !== moduleId
+            //     )
+            // }, () => {
+            //     this.courseService.updateCourse(
+            //         {
+            //             id: this.props.course.id,
+            //             title: this.props.course.title,
+            //             modules: this.state.modules
+            //         });
+            //
+            //     this.props.resetAllOnDelete();
+            //
+            //     // var course = this.courseService.findCourseById(this.props.course.id)
+            //     // console.log(course);
+            // });
         }
     };
 
@@ -98,9 +91,24 @@ class ModuleList extends React.Component {
             });
     };
 
-    editModule = () => {
-        console.log("in edit module");
+    editTitle = () => {
         this.state.disableEditTitle = false;
+    };
+
+    editModule = () => {
+        var self = this;
+        console.log(document.getElementById("newTitle").value)
+        this.moduleService
+            .editModule(
+                this.props.selectedModuleId,
+                { title: document.getElementById("newTitle").value})
+            .then(function(editedModule){
+                console.log(editedModule);
+                self.setState({
+                    disableEditTitle : true
+                })
+                document.getElementById("newTitle").value = ""
+            });
     };
 
     render() {
@@ -113,9 +121,15 @@ class ModuleList extends React.Component {
                                 <input
                                     onChange={this.titleChanged}
                                     className="form-control"
-                                    disabled={this.state.disableEditTitle}/>
+                                    disabled={this.state.disableEditTitle}
+                                    id={"newTitle"}/>
                             </div>
-                            <div className={"col-4"}>
+                            <div className={"col-4"} hidden={this.state.disableEditTitle}>
+                                <button
+                                    onClick={this.editModule}
+                                    className="btn btn-success btn-block"><i className="fas fa-check"></i></button>
+                            </div>
+                            <div className={"col-4"} hidden={!this.state.disableEditTitle}>
                                 <button
                                     onClick={this.createModule}
                                     className="btn btn-primary btn-block"><i className="fas fa-plus"></i></button>
@@ -129,7 +143,7 @@ class ModuleList extends React.Component {
                                     <ModuleListItem
                                         selectModule={this.props.selectModule}
                                         deleteModule={this.deleteModule}
-                                        editModule={this.editModule}
+                                        editTitle={this.editTitle}
                                         selectedModuleId={this.props.selectedModuleId}
                                         key={module.id}
                                         module={module}/>
