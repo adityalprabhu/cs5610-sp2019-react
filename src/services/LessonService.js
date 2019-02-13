@@ -1,38 +1,34 @@
 import CourseService from "./CourseService";
 
-class ModuleService {
+class LessonService {
     static myInstance = null;
     static courses;
 
     constructor() {
         this.apiUrl = "http://localhost:8080";
         this.courseService = CourseService.getInstance();
+
     }
 
     static getInstance() {
-        if (ModuleService.myInstance == null) {
-            ModuleService.myInstance =
-                new ModuleService();
+        if (LessonService.myInstance == null) {
+            LessonService.myInstance =
+                new LessonService();
         }
         return this.myInstance;
     }
 
-    createModule = (courseId) => {
+    createLesson = (courseId, moduleId) => {
 
-        let newModule = {
-            title: "New Module",
+        var newModule = {
             id: parseInt((new Date()).getTime()/1000),
-            lessons: [{
+            title: "New Lesson",
+            topics: [{
                 id: parseInt((new Date()).getTime() / 1000),
-                title: "Lesson 1",
-                topics: [{
+                title: "Topic 1",
+                widgets: [{
                     id: parseInt((new Date()).getTime() / 1000),
-                    title: "Topic 1",
-                    widgets: [{
-                        id: parseInt((new Date()).getTime() / 1000),
-                        title: "Widget 1",
-
-                    }]
+                    title: "Widget 1",
                 }]
             }]
         };
@@ -46,22 +42,27 @@ class ModuleService {
         };
         let self = this;
         let updatedCourse = self.courseService.findCourseById(courseId);
-        return fetch(this.apiUrl+'/api/courses/'+courseId+'/modules', requestOptions)
+        let updatedModule;
+        for(let module of updatedCourse.modules) {
+            if(module.id == moduleId){
+                updatedModule = module;
+            }
+        }
+        return fetch(this.apiUrl+'/api/module/'+moduleId+'/lesson', requestOptions)
             .then(this.handleResponse)
             .then(function(response) {
                 // console.log(response);
-                let modules = updatedCourse.modules;
-                modules.push(response);
-                self.courseService.findAllCourses();
-                // console.log(modules);
-                return modules;
+                updatedModule.lessons.push(response);
+
+                // console.log(updatedModule);
+                return updatedModule.lessons;
             });
 
 
     };
 
 
-    deleteModule = (moduleId, modules) => {
+    deleteLesson = (lessonId, lessons) => {
 
         const requestOptions = {
             method: 'DELETE',
@@ -70,29 +71,28 @@ class ModuleService {
         };
 
         var self = this;
-        // console.log(moduleId);
-        let updatedModules = modules.filter(module => module.id !== moduleId)
-        return fetch(this.apiUrl+'/api/modules/' + moduleId, requestOptions)
+        console.log(lessonId);
+        let updatedLessons = lessons.filter(lesson => lesson.id !== lessonId);
+        return fetch(this.apiUrl+'/api/lesson/' + lessonId, requestOptions)
             .then(this.handleResponse)
             .then(function(response) {
                 // console.log(response);
-                // console.log(updatedModules);
                 self.courseService.findAllCourses();
-                return updatedModules;
+                // console.log(updatedLessons);
+                return updatedLessons;
             });
     };
 
-    editModule = (moduleId, module) => {
+    editLesson = (lessonId, lesson) => {
         const requestOptions = {
             method: 'PUT',
             credentials: 'include',
             headers: { 'Content-Type': 'application/json'},
-            body: JSON.stringify(module)
+            body: JSON.stringify(lesson)
         };
-
         var self = this;
-        // console.log(moduleId);
-        return fetch(this.apiUrl+'/api/modules/' + moduleId, requestOptions)
+        console.log(lessonId);
+        return fetch(this.apiUrl+'/api/lesson/' + lessonId, requestOptions)
             .then(this.handleResponse)
             .then(function(response) {
                 // console.log(response);
@@ -122,5 +122,4 @@ class ModuleService {
 
 }
 
-
-export default ModuleService;
+export default LessonService;

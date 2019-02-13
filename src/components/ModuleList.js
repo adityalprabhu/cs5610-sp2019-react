@@ -10,6 +10,7 @@ class ModuleList extends React.Component {
 
         this.courseService = CourseService.getInstance();
         this.moduleService = ModuleService.getInstance();
+
         this.state = {
             modules: this.props.modules,
             disableEditTitle: true
@@ -53,24 +54,6 @@ class ModuleList extends React.Component {
                 });
 
             this.props.resetAllOnDelete();
-
-            // this.setState({
-            //     modules: this.state.modules.filter(
-            //         module => module.id !== moduleId
-            //     )
-            // }, () => {
-            //     this.courseService.updateCourse(
-            //         {
-            //             id: this.props.course.id,
-            //             title: this.props.course.title,
-            //             modules: this.state.modules
-            //         });
-            //
-            //     this.props.resetAllOnDelete();
-            //
-            //     // var course = this.courseService.findCourseById(this.props.course.id)
-            //     // console.log(course);
-            // });
         }
     };
 
@@ -97,17 +80,16 @@ class ModuleList extends React.Component {
 
     editModule = () => {
         var self = this;
-        console.log(document.getElementById("newTitle").value)
         this.moduleService
             .editModule(
                 this.props.selectedModuleId,
                 { title: document.getElementById("newTitle").value})
             .then(function(editedModule){
-                console.log(editedModule);
+                // console.log(editedModule);
                 self.setState({
                     disableEditTitle : true
-                })
-                document.getElementById("newTitle").value = ""
+                });
+                document.getElementById("newTitle").value = "";
             });
     };
 

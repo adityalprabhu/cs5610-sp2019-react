@@ -45,7 +45,7 @@ class CourseService {
 
 
                 self.courses = response;
-                console.log(response);
+                // console.log(response);
                 console.log(self.courses);
                 return response;
 
@@ -58,24 +58,22 @@ class CourseService {
         var newCourse = {
             id: parseInt((new Date()).getTime()/1000),
             title: course.title == "" ? "New Course" : course.title,
-            modules: [
-                {
-                    id: parseInt((new Date()).getTime()/1000),
-                    title: "Module 1",
-                    lessons: [
-                        {
-                            id:parseInt((new Date()).getTime()/1000),
-                            title: "Lesson 1",
-                            topics: [
-                                {
-                                    id:(new Date()).getTime()/1000,
-                                    title: "Topic 1"
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
+            modules: [{
+                id: parseInt((new Date()).getTime()/1000),
+                title: "Module 1",
+                lessons: [{
+                    id:parseInt((new Date()).getTime()/1000),
+                    title: "Lesson 1",
+                    topics: [{
+                        id: parseInt((new Date()).getTime()/1000),
+                        title: "Topic 1",
+                        widgets : [{
+                            id: parseInt((new Date()).getTime()/1000),
+                            title: "Widget 1",
+                        }]
+                    }]
+                }]
+            }]
         };
 
         const requestOptions = {
@@ -118,20 +116,20 @@ class CourseService {
     createModule = (courseId) => {
 
         var newModule = {
-            title: 'New Module',
-            id: parseInt((new Date()).getTime()/1000),
-            lessons: [
-                {
+            "title": 'New Module',
+            "id": parseInt((new Date()).getTime()/1000),
+            "lessons": [{
+                "id": parseInt((new Date()).getTime()/1000),
+                "title": "Lesson 1",
+                "topics": [{
                     "id": parseInt((new Date()).getTime()/1000),
-                    "title": "Lesson 1",
-                    "topics": [
-                        {
-                            "id": parseInt((new Date()).getTime()/1000),
-                            "title": "Topic 1"
-                        }
-                    ]
-                }
-            ]
+                    "title": "New Topic",
+                    "widgets" : [{
+                        "id": parseInt((new Date()).getTime()/1000),
+                        "title": "New Widget",
+                    }]
+                }]
+            }]
         };
 
         const requestOptions = {
@@ -146,10 +144,10 @@ class CourseService {
         return fetch(this.apiUrl+'/api/courses/'+courseId+'/modules', requestOptions)
             .then(this.handleResponse)
             .then(function(response) {
-                console.log(response);
+                // console.log(response);
                 let modules = updatedCourse.modules;
                 modules.push(response);
-                console.log(modules);
+                // console.log(modules);
                 return modules;
             });
 

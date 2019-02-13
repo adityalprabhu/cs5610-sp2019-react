@@ -2,11 +2,13 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 import '../assets/moduleList.css'
 import CourseService from "../services/CourseService";
+import LessonService from "../services/LessonService";
 
 class LessonTabs extends React.Component {
     constructor(props) {
         super(props);
-        this.courseService = new CourseService();
+        this.courseService = CourseService.getInstance();
+        this.lessonService = LessonService.getInstance();
 
         this.state = {
             lessons: this.props.module.lessons,
@@ -16,6 +18,39 @@ class LessonTabs extends React.Component {
         this.titleChanged = this.titleChanged.bind(this);
         this.editLesson = this.editLesson.bind(this);
     }
+
+    createLesson = () => {
+
+        var self = this;
+        this.lessonService
+            .createLesson(this.props.course.id, this.props.module.id)
+            .then(function(updated_lessons){
+                self.setState({
+                    lessons: updated_lessons
+                })
+            })
+    };
+
+    deleteLesson = (e, lessonId) => {
+        e.stopPropagation();
+
+        if(this.state.lessons.length == 1){
+            alert("Can't delete for now as only one lesson left!")
+        }else {
+
+            var self = this;
+            this.lessonService
+                .deleteLesson(lessonId, this.state.lessons)
+                .then(function(newLessons){
+                    self.setState({
+                        lessons: newLessons
+                    })
+                });
+
+            this.props.resetAllLessonsOnDelete();
+        }
+    };
+
 
     titleChanged = (event) => {
 
@@ -29,69 +64,25 @@ class LessonTabs extends React.Component {
             });
     };
 
-    createLesson = () => {
 
-        this.setState(
-            {
-                lessons: [
-                    ...this.state.lessons,
-                    {
-                        "id": (new Date()).getTime(),
-                        "title": "New Lesson",
-                        "topics": [
-                            {
-                                "id": 1,
-                                "title": "Topic 1"
-                            }
-                        ]
-                    }
-                ]
-            },() => {
-                var newModule = this.courseService.updateModule(
-                    this.props.course,
-                    {
-                        id: this.props.module.id,
-                        title: this.props.module.title,
-                        lessons: this.state.lessons
-                    });
-
-                console.log(newModule);
-            }
-        );
+    editTitle = () => {
+        this.state.disableEditTitle = false;
     };
-
-    deleteLesson = (e, lessonId) => {
-        e.stopPropagation();
-
-        if(this.state.lessons.length == 1){
-            alert("Can't delete for now as only one lesson left!")
-        }else {
-            this.setState({
-                lessons: this.state.lessons.filter(
-                    lesson => lesson.id !== lessonId
-                )
-            }, () => {
-                var newModule = this.courseService.updateModule(
-                    this.props.course,
-                    {
-                        id: this.props.module.id,
-                        title: this.props.module.title,
-                        lessons: this.state.lessons
-                    });
-
-                this.props.resetAllLessonsOnDelete();
-
-                // var course = this.courseService.findCourseById(this.props.course.id)
-                console.log(newModule);
-            });
-        }
-    };
-
-
 
     editLesson = () => {
-        console.log("in edit lesson");
-        this.state.disableEditTitle = false;
+        var self = this;
+        console.log(document.getElementById("lessonTitle").value)
+        this.lessonService
+            .editLesson(
+                this.props.selectedLessonId,
+                { title: document.getElementById("lessonTitle").value})
+            .then(function(editedLesson){
+                console.log(editedLesson);
+                self.setState({
+                    disableEditTitle : true
+                });
+                document.getElementById("lessonTitle").value = ""
+            });
     };
 
 
@@ -120,7 +111,7 @@ class LessonTabs extends React.Component {
                             <div className="row">
                                 <div className="col-6">{lesson.title}</div>
                                 <div className="col-6">
-                                    <button className="btn btn-warning" onClick={this.editLesson}>
+                                    <button className="btn btn-warning" onClick={this.editTitle}>
                                         <i className="fas fa-pencil-alt"></i>
                                     </button>
                                     <span>       </span>
@@ -138,9 +129,15 @@ class LessonTabs extends React.Component {
                             <input
                                 onChange={this.titleChanged}
                                 className="form-control"
-                                disabled={this.state.disableEditTitle}/>
+                                disabled={this.state.disableEditTitle}
+                                id={"lessonTitle"}/>
                         </div>
-                        <div className={"col-4"}>
+                        <div className={"col-4"} hidden={this.state.disableEditTitle}>
+                            <button
+                                onClick={this.editLesson}
+                                className="btn btn-success btn-block"><i className="fas fa-check"></i></button>
+                        </div>
+                        <div className={"col-4"} hidden={!this.state.disableEditTitle}>
                             <div
                                 onClick={this.createLesson}
                                 className="btn btn-primary btn-block"><i className="fas fa-plus">

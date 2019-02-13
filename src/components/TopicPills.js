@@ -2,11 +2,13 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 import CourseService from "../services/CourseService";
+import TopicService from "../services/TopicService";
 
 class TopicPills extends React.Component {
     constructor(props) {
         super(props);
-        this.courseService = new CourseService();
+        this.courseService = CourseService.getInstance();
+        this.topicService = TopicService.getInstance();
 
         this.state = {
             topics: this.props.lesson.topics,
@@ -32,64 +34,58 @@ class TopicPills extends React.Component {
 
     createTopic = () => {
         console.log("in create topic!");
-
-        this.setState(
-            {
-                topics: [
-                    ...this.state.topics,
-                    {
-                        "id": (new Date()).getTime(),
-                        "title": "New Topic"
-                    }
-                ]
-            },() => {
-                var newLesson = this.courseService.updateLesson(
-                    this.props.course,
-                    this.props.module,
-                    {
-                        id: this.props.lesson.id,
-                        title: this.props.lesson.title,
-                        topics: this.state.topics
-                    });
-
-                console.log(newLesson);
-            }
-        );
-
+        var self = this;
+        this.topicService
+            .createTopic(this.props.course.id, this.props.module.id, this.props.lesson.id)
+            .then(function (updated_topics) {
+                self.setState({
+                    topics: updated_topics
+                })
+            });
     };
 
     deleteTopic = (e, topicId) => {
         e.stopPropagation();
 
-        if(this.state.topics.length == 0){
+        if(this.state.topics.length == 1){
             alert("Can't delete for now as only one topic left!")
         }else {
-            this.setState({
-                topics: this.state.topics.filter(
-                    topic => topic.id !== topicId
-                )
-            }, () => {
-                let newLesson = this.courseService.updateLesson(
-                    this.props.course,
-                    this.props.module,
-                    {
-                        id: this.props.lesson.id,
-                        title: this.props.lesson.title,
-                        topics: this.state.topics
-                    });
 
-                console.log(newLesson);
+            var self = this;
+            this.topicService
+                .deleteTopic(topicId, this.state.topics)
+                .then(function(updatedTopics){
+                    self.setState({
+                        topics: updatedTopics
+                    })
+                });
 
-                this.props.resetAllTopicsOnDelete();
-
-            });
+            this.props.resetAllTopicsOnDelete();
         }
     };
 
-    editTopic = () => {
-        console.log("in edit topic");
+
+    editTitle = () => {
         this.state.disableEditTitle = false;
     };
+
+    editTopic = () => {
+        var self = this;
+        console.log(document.getElementById("topicTitle").value)
+        this.topicService
+            .editTopic(
+                this.props.selectedTopicId,
+                { title: document.getElementById("topicTitle").value})
+            .then(function(editedTopic){
+                console.log(editedTopic);
+                self.setState({
+                    disableEditTitle : true
+                });
+                document.getElementById("topicTitle").value = ""
+            });
+    };
+
+
 
     componentDidUpdate(prevProps) {
 
@@ -120,7 +116,7 @@ class TopicPills extends React.Component {
                             <div className="row">
                                 <div className="col-5">{topic.title}</div>
                                 <div className="col-7">
-                                    <button className="btn btn-warning" onClick={this.editTopic}>
+                                    <button className="btn btn-warning" onClick={this.editTitle}>
                                         <i className="fas fa-pencil-alt"></i>
                                     </button>
                                     <span>       </span>
@@ -138,9 +134,15 @@ class TopicPills extends React.Component {
                             <input
                                 onChange={this.titleChanged}
                                 className="form-control"
-                                disabled={this.state.disableEditTitle}/>
+                                disabled={this.state.disableEditTitle}
+                                id={"topicTitle"}/>
                         </div>
-                        <div className={"col-4"}>
+                        <div className={"col-4"} hidden={this.state.disableEditTitle}>
+                            <button
+                                onClick={this.editTopic}
+                                className="btn btn-success btn-block"><i className="fas fa-check"></i></button>
+                        </div>
+                        <div className={"col-4"} hidden={!this.state.disableEditTitle}>
                             <div
                                 onClick={this.createTopic}
                                 className="btn btn-primary btn-block"><i className="fas fa-plus">
