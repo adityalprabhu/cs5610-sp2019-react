@@ -19,7 +19,6 @@ class CourseService {
     }
 
     static getInstance() {
-        console.log("in get instance")
         if (CourseService.myInstance == null) {
             CourseService.myInstance =
                 new CourseService();
@@ -87,6 +86,9 @@ class CourseService {
         return fetch(this.apiUrl+'/api/courses', requestOptions)
             .then(this.handleResponse)
             .then(function(response) {
+                if(self.courses == ""){
+                    self.courses = []
+                }
                 self.courses.push(response);
                 return self.courses;
             });

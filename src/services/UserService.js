@@ -1,8 +1,16 @@
 class UserService {
+    static myInstance = null;
 
     constructor(){
         this.user = "";
         this.apiUrl = "http://localhost:8080"
+    }
+
+    static getInstance() {
+        if (UserService.myInstance == null) {
+            UserService.myInstance = new UserService();
+        }
+        return this.myInstance;
     }
 
     login = (username, password) => {
@@ -18,6 +26,7 @@ class UserService {
             .then(this.handleResponse)
             .then(user => {
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
+                console.log("sdsdsdsdds")
                 localStorage.setItem('user', JSON.stringify(user));
 
                 return user;
@@ -36,31 +45,63 @@ class UserService {
             .then(this.handleResponse)
             .then(user => {
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
-                localStorage.setItem('user', JSON.stringify(user));
+                if(user!=null){
+                    console.log("dssdsdsd")
+                    localStorage.setItem('user', JSON.stringify(user));
+                }
 
                 return user;
+
             });
     };
 
-    findAllCourses = () => {
-        const requestOptions = {
-            method: 'GET',
-            credentials: 'include',
-            headers: { 'Content-Type': 'application/json'
-            }
 
+    logout = () => {
+        const requestOptions = {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' }
         };
 
-        return fetch(this.apiUrl+'/api/courses', requestOptions)
-            .then(this.handleResponse)
-            .then(courses => {
-                // store user details and jwt token in local storage to keep user logged in between page refreshes
-                // localStorage.setItem('user', JSON.stringify(user));
-
-                return courses;
+        return fetch(this.apiUrl+'/api/logout', requestOptions)
+            .then(function(res){
+            console.log(res);
+            return null;
             });
     };
 
+    getProfile = (user) => {
+        const requestOptions = {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' }
+        };
+
+        return fetch(this.apiUrl+'/api/profile', requestOptions)
+            .then(this.handleResponse)
+            .then(function(res){
+                console.log(res);
+                return res;
+            });
+    };
+
+
+
+    updateProfile = (user) => {
+        const requestOptions = {
+            method: 'PUT',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(user)
+        };
+
+        return fetch(this.apiUrl+'/api/profile', requestOptions)
+            .then(this.handleResponse)
+            .then(function(res){
+                console.log(res);
+                return res;
+            });
+    };
 
 
     handleResponse = (response) => {

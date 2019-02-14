@@ -10,9 +10,9 @@ const CourseTable = ({courses, deleteCourse, addCourse, shouldHide}) =>
                 <div className="col-3 d-none d-sm-block">Modified</div>
                 <div className="col-3"></div>
             </div>
-
+            {(courses == "") && <div>No Courses to show!</div>}
             {
-                courses.map(course =>
+                (courses != "") && courses.map(course =>
                     <CourseRow
                         deleteCourse={deleteCourse}
                         course={course}

@@ -25,6 +25,9 @@ class TopicService {
             "widgets" : [{
                 "id": parseInt((new Date()).getTime()/1000),
                 "title": "New Widget",
+                "text":"This is a Heading",
+                "size":1,
+                "type":"HEADING"
             }]
         };
 
@@ -105,9 +108,6 @@ class TopicService {
             const data = text && JSON.parse(text);
             if (!response.ok) {
                 if (response.status === 401) {
-                    // auto logout if 401 response returned from api
-                    // logout();
-                    // location.reload(true);
                     console.log("401 Error");
                 }
 

@@ -30,18 +30,20 @@ class Login extends Component {
         this.userService
             .login(username, password)
             .then(function(res){
-                console.log(res);
-                self.setState({
-                    loggedIn : true,
-                });
+                if(res == ""){
+                    alert("User doesn't exist!")
+                }else{
+                    console.log(res);
+                    self.props.history.push("/courseList");
+                }
             });
     };
 
     render() {
         const { username, password, loggedIn, courses } = this.state;
-        if (loggedIn === true) {
-            return <Redirect to='/courseList' />
-        }
+        // if (loggedIn === true) {
+        //     return <Redirect to='/courseList' />
+        // }
         return (
 
             <div className="container">

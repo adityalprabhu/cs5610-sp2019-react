@@ -26,12 +26,17 @@ class Register extends Component {
     registerUser = (e) => {
         e.preventDefault();
         const { username, password, vpassword } = this.state;
-
+        var self = this;
         if(password == vpassword){
             this.userService
                 .register(username, password)
                 .then(function(res){
                     console.log(res)
+                    if(res == "") {
+                        alert("User already exists! Register with a different username!")
+                    }else{
+                        self.props.history.push("/login");
+                    }
                 });
         }
 

@@ -33,7 +33,6 @@ class TopicPills extends React.Component {
     };
 
     createTopic = () => {
-        console.log("in create topic!");
         var self = this;
         this.topicService
             .createTopic(this.props.course.id, this.props.module.id, this.props.lesson.id)

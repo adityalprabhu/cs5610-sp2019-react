@@ -4,9 +4,25 @@ import Login from "./Login";
 import CourseList from "./CourseList";
 import Register from "./Register";
 import '../assets/index.css';
+import UserService from "../services/UserService";
+import Profile from "./Profile";
 
 
 class Home extends Component {
+
+    constructor(props){
+        super();
+        this.userService = UserService.getInstance();
+    }
+
+    logout = () => {
+
+        this.userService
+            .logout()
+            .then(function(res){
+                localStorage.removeItem("user");
+            })
+    };
 
     render() {
         return (
@@ -27,6 +43,12 @@ class Home extends Component {
                                 <li className="nav-item">
                                     <Link to="/register">Register</Link>
                                 </li>
+                                <li className="nav-item">
+                                    <Link to="/profile">Profile</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link to={"/"} onClick={this.logout}>Logout</Link>
+                                </li>
                             </ul>
                         </div>
                     </nav>
@@ -40,6 +62,9 @@ class Home extends Component {
                     <Route path='/courseList'
                            exact
                            component={CourseList}/>
+                    <Route path='/profile'
+                           exact
+                           component={Profile}/>
                 </div>
             </Router>
         )
