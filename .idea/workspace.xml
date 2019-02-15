@@ -4,16 +4,7 @@
     <bookmark url="file://$PROJECT_DIR$/src/components/ImageWidget.js" description="        &lt;div className=&quot;input-group flex-nowrap&quot;&gt;&#10;..." line="21" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4ef0f71e-2565-479a-9f63-dadde9f2a5f1" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/TopicPills.js" afterPath="$PROJECT_DIR$/src/components/TopicPills.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/containers/CourseTable.js" afterPath="$PROJECT_DIR$/src/containers/CourseTable.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/containers/Home.js" afterPath="$PROJECT_DIR$/src/containers/Home.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/containers/Login.js" afterPath="$PROJECT_DIR$/src/containers/Login.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/containers/Register.js" afterPath="$PROJECT_DIR$/src/containers/Register.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/services/CourseService.js" afterPath="$PROJECT_DIR$/src/services/CourseService.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/services/TopicService.js" afterPath="$PROJECT_DIR$/src/services/TopicService.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/services/UserService.js" afterPath="$PROJECT_DIR$/src/services/UserService.js" />
-    </list>
+    <list default="true" id="4ef0f71e-2565-479a-9f63-dadde9f2a5f1" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -51,8 +42,8 @@
       <file leaf-file-name="UserService.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/services/UserService.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="465">
-              <caret line="31" column="27" lean-forward="false" selection-start-line="31" selection-start-column="27" selection-end-line="31" selection-end-column="27" />
+            <state relative-caret-position="495">
+              <caret line="33" column="6" lean-forward="true" selection-start-line="33" selection-start-column="6" selection-end-line="33" selection-end-column="6" />
               <folding />
             </state>
           </provider>
@@ -303,12 +294,12 @@
       <updated>1548470193820</updated>
       <workItem from="1548470196733" duration="106470000" />
       <workItem from="1549881035135" duration="24439000" />
-      <workItem from="1550079146023" duration="13381000" />
+      <workItem from="1550079146023" duration="13649000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="144290000" />
+    <option name="totallyTimeSpent" value="144558000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="777" extended-state="0" />
@@ -729,8 +720,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/services/UserService.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="31" column="27" lean-forward="false" selection-start-line="31" selection-start-column="27" selection-end-line="31" selection-end-column="27" />
+        <state relative-caret-position="495">
+          <caret line="33" column="6" lean-forward="true" selection-start-line="33" selection-start-column="6" selection-end-line="33" selection-end-column="6" />
           <folding />
         </state>
       </provider>
