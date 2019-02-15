@@ -6,7 +6,8 @@ class CourseService {
 
     constructor() {
         // this.courses = [];
-        this.apiUrl = "http://localhost:8080";
+        // this.apiUrl = "http://localhost:8080";
+        this.apiUrl = " https://cs5610-sp19-adityalprabhu.herokuapp.com";
         // this.courses = courses;
         var self = this;
 
