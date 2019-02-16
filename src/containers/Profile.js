@@ -48,7 +48,13 @@ class Profile extends Component {
     };
 
     logout = () => {
-
+        var self = this;
+        this.userService
+            .logout()
+            .then(function(res){
+                localStorage.removeItem("user");
+                self.props.history.push('/login')
+            })
     };
 
 
