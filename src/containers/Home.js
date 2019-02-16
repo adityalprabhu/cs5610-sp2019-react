@@ -49,6 +49,9 @@ class Home extends Component {
                                 <li className="nav-item">
                                     <Link to={"/"} onClick={this.logout}>Logout</Link>
                                 </li>
+                                <li className="nav-item">
+                                    <Link to={"/courseList"}>Course List</Link>
+                                </li>
                             </ul>
                         </div>
                     </nav>
