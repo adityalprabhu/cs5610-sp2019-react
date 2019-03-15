@@ -44,7 +44,7 @@ const WidgetComponent = ({widget, deleteWidget, updateWidget, moveWidgetUp, move
                             <option value="IMAGE">Image</option>
                             <option value="LIST">List</option>
                             <option value="PARAGRAPH">Paragraph</option>
-                            <option value="LINK">Link</option>
+                            {/*<option value="LINK">Link</option>*/}
                         </select>
                     </div>
                     <div className="col-sm-2 text-center" style={{padding: '1px'}}>

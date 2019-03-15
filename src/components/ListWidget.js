@@ -1,16 +1,24 @@
 import React from 'react'
+let listItems = []
 
-const ListWidget = ({widget, updateWidget}) =>
-    <div>
+const ListWidget = ({widget, updateWidget}) => {
+    console.log("hmmmmmmmmmm")
+    console.log(listItems)
+    if(listItems.length == 0){
+        console.log("SDsdsdsdsdsdsdsdsdsdsdsd")
+        listItems = widget.ltext.split(/\n/);
+        updateWidget(widget)
+    }
+    return(<div>
         <div className={"non-preview-container"}>
 
             <div className="input-group flex-nowrap">
                 <label htmlFor="listItems" className="col-sm-3 col-form-label">List Items</label>
                 <textarea id="listItems"
-                          value={widget.text}
+                          value={widget.ltext}
                           onChange={event => {
                               widget.ltext = event.target.value;
-                              widget.listItems = widget.text.split(/\n/);
+                              listItems = widget.ltext.split(/\n/);
                               updateWidget(widget)
                           }}
                           className="form-control"
@@ -25,6 +33,7 @@ const ListWidget = ({widget, updateWidget}) =>
                     id={"listType"}
                     onChange={event => {
                         widget.listType = parseInt(event.target.value);
+                        listItems = widget.ltext.split(/\n/);
                         updateWidget(widget)
                     }}
                     value={widget.listType}
@@ -44,6 +53,7 @@ const ListWidget = ({widget, updateWidget}) =>
                     className="form-control"
                     onChange={event => {
                         widget.title = event.target.value
+                        updateWidget(widget)
                     }}
                     style={{marginTop: '10px'}}/>
             </div>
@@ -54,18 +64,20 @@ const ListWidget = ({widget, updateWidget}) =>
             widget.listType === 0 &&
             <ul>
                 {
-                    widget.listItems.map((item,index) =>
-                        <li key={index +(new Date()).getTime()}>{item}</li>)
+                    listItems.map((item, index) =>
+                        <li key={index + (new Date()).getTime()}>{item}</li>)
                 }
             </ul> ||
             widget.listType === 1 &&
             <ol>
                 {
-                    widget.listItems.map((item,index) =>
-                        <li key={index +(new Date()).getTime()}>{item}</li>)
+                    listItems.map((item, index) =>
+                        <li key={index + (new Date()).getTime()}>{item}</li>)
                 }
             </ol>
         }
-    </div>;
+    </div>)
+};
+
 
 export default ListWidget;

@@ -37,10 +37,10 @@ class WidgetService {
         let updatedTopic;
         console.log(courseId)
         for(let module of updatedCourse.modules) {
-                for(let lesson of module.lessons){
-                    for(let topic of lesson.topics){
-                        if(topic.id == topicId){
-                            updatedTopic =  topic
+            for(let lesson of module.lessons){
+                for(let topic of lesson.topics){
+                    if(topic.id == topicId){
+                        updatedTopic =  topic
                     }
                 }
             }
@@ -79,20 +79,23 @@ class WidgetService {
 
     saveAllWidgets = (topicId, newWidgets) => {
 
-        this.findAllWidgets(topicId)
-            .then(widgets => {
+        if(newWidgets.length > 0){
+            for(let widget of newWidgets) {
+                this.editWidget(widget)
+            }
+        }
+    };
 
-            });
-
-
+    editWidget = (widget) => {
         const requestOptions = {
-            method: 'GET',
+            method: 'PUT',
             credentials: 'include',
-            headers: { 'Content-Type': 'application/json'}
+            headers: { 'Content-Type': 'application/json'},
+            body: JSON.stringify(widget)
 
         };
 
-        return fetch(this.apiUrl+'/api/topic/'+topicId+'/widget', requestOptions)
+        return fetch(this.apiUrl+'/api/widget/'+widget.id, requestOptions)
             .then(this.handleResponse)
             .then(function(response) {
                 console.log(response);

@@ -110,9 +110,7 @@ const widgetReducer = (state ={widgets:[], preview: false}, action) => {
         case 'SAVE':
 
             let apiResponse = "";
-            widgetService.saveAllWidgets(this.props.topic.id, state.widgets).then(res =>{
-                apiResponse = res
-            });
+            widgetService.saveAllWidgets(action.topicId, state.widgets)
 
             return{
                 widgets:state.widgets

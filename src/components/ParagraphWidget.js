@@ -26,6 +26,7 @@ const ParagraphWidget = ({widget, updateWidget}) =>
                     className="form-control"
                     onChange={event => {
                         widget.title = event.target.value
+                        updateWidget(widget)
                     }}
                     style={{marginTop: '10px'}}/>
             </div>
