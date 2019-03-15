@@ -30,6 +30,7 @@ class ModuleList extends React.Component {
                 self.setState({
                     modules: updated_modules
                 })
+                self.props.selectModule(self.state.modules[0])
             })
     };
 

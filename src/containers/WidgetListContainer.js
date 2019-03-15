@@ -1,13 +1,18 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import WidgetList from '../components/WidgetList'
+import WidgetService from "../services/WidgetService";
 
 const stateToPropertyMapper = state => ({
+
     widgets: state.widgets
 });
 
+const widgetService = new WidgetService();
+const dispatchToPropertyMapper = dispatch => (
 
-const dispatchToPropertyMapper = dispatch => ({
+    {
+
     loadWidgets: (widgets, topic, course, module, lesson) => dispatch({
         type:'LOAD_WIDGETS',
         widgets:widgets,
@@ -17,15 +22,19 @@ const dispatchToPropertyMapper = dispatch => ({
         lesson: lesson
 
     }),
-    deleteWidget: widget =>
+    deleteWidget: widget => {
+        // widgetService.deleteWidget(widget.id)
         dispatch({
             type: 'DELETE_WIDGET',
             widget: widget
-        }),
-    addWidget: topicId =>
+        })
+    }
+        ,
+    addWidget: (topicId, courseId) =>
         dispatch({
             type: 'CREATE_WIDGET',
-            topicId: topicId
+            topicId: topicId,
+            courseId: courseId
         }),
     updateWidget: widget =>
         dispatch({
@@ -52,9 +61,10 @@ const dispatchToPropertyMapper = dispatch => ({
             type: 'FIND_WIDGET',
             topicId: topicId
         }),
-    save: () =>
+    save: (topicId) =>
         dispatch({
-            type: 'SAVE'
+            type: 'SAVE',
+            topicId: topicId
         }),
     togglePreview: preview =>
         dispatch({

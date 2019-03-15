@@ -9,7 +9,7 @@ const ListWidget = ({widget, updateWidget}) =>
                 <textarea id="listItems"
                           value={widget.text}
                           onChange={event => {
-                              widget.text = event.target.value;
+                              widget.ltext = event.target.value;
                               widget.listItems = widget.text.split(/\n/);
                               updateWidget(widget)
                           }}

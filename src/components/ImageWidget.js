@@ -8,9 +8,9 @@ const ImageWidget = ({widget, updateWidget}) =>
                 <label htmlFor="imageSrc" className="col-sm-3 col-form-label">Image URL</label>
                 <input
                     id={"imageSrc"}
-                    value={widget.src}
+                    value={widget.url}
                     onChange={event => {
-                        widget.src = event.target.value
+                        widget.url = event.target.value
                         updateWidget(widget)
                     }}
                     className="form-control"
@@ -33,7 +33,7 @@ const ImageWidget = ({widget, updateWidget}) =>
 
             <h6 style={{marginTop: '10px'}}>Preview</h6>
         </div>
-        <img src={widget.src}></img>
+        <img src={widget.url}></img>
     </div>;
 
 export default ImageWidget

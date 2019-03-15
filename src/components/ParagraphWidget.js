@@ -7,9 +7,9 @@ const ParagraphWidget = ({widget, updateWidget}) =>
             <div className="input-group flex-nowrap">
                 <label htmlFor="paragraphText" className="col-sm-3 col-form-label">Paragraph Text</label>
                 <textarea id="paragraphText"
-                          value={widget.text}
+                          value={widget.ptext}
                           onChange={event => {
-                              widget.text = event.target.value;
+                              widget.ptext = event.target.value;
                               updateWidget(widget)
                           }}
                           className="form-control"
@@ -32,7 +32,7 @@ const ParagraphWidget = ({widget, updateWidget}) =>
 
             <h6 style={{marginTop: '10px'}}>Preview</h6>
         </div>
-        <p>{widget.text}</p>
+        <p>{widget.ptext}</p>
     </div>;
 
 export default ParagraphWidget;

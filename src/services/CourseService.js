@@ -5,18 +5,21 @@ class CourseService {
     static courses;
 
     constructor() {
-        // this.courses = [];
-        // this.apiUrl = "http://localhost:8080";
-        this.apiUrl = " https://cs5610-sp19-adityalprabhu.herokuapp.com";
+        // CourseService.courses = [];
+        this.apiUrl = "http://localhost:8080";
+        // this.apiUrl = " https://cs5610-sp19-adityalprabhu.herokuapp.com";
         // this.courses = courses;
         var self = this;
 
         if(CourseService.myInstance == null){
             this.findAllCourses()
                 .then(function(courses){
-                    self.courses = courses;
+                    CourseService.courses = courses;
                 })
         }
+
+        this.courses =  CourseService.courses;
+
     }
 
     static getInstance() {
@@ -45,8 +48,8 @@ class CourseService {
 
 
                 self.courses = response;
-                // console.log(response);
-                console.log(self.courses);
+                // console.log(self.courses);
+                // console.log(self.courses);
                 return response;
 
             });
@@ -56,25 +59,28 @@ class CourseService {
     addCourse = (course) => {
 
         var newCourse = {
-            id: parseInt((new Date()).getTime()/1000),
+            // id: parseInt((new Date()).getTime()/1000),
             title: course.title == "" ? "New Course" : course.title,
-            modules: [{
-                id: parseInt((new Date()).getTime()/1000),
-                title: "Module 1",
-                lessons: [{
-                    id:parseInt((new Date()).getTime()/1000),
-                    title: "Lesson 1",
-                    topics: [{
-                        id: parseInt((new Date()).getTime()/1000),
-                        title: "Topic 1",
-                        widgets : [{
-                            id: parseInt((new Date()).getTime()/1000),
-                            title: "Widget 1",
-                        }]
-                    }]
-                }]
-            }]
+            // modules: []
         };
+
+        //
+        // modules: [{
+        //     id: parseInt((new Date()).getTime()/1000),
+        //     title: "Module 1",
+        //     lessons: [{
+        //         id:parseInt((new Date()).getTime()/1000),
+        //         title: "Lesson 1",
+        //         topics: [{
+        //             id: parseInt((new Date()).getTime()/1000),
+        //             title: "Topic 1",
+        //             widgets : [{
+        //                 id: parseInt((new Date()).getTime()/1000),
+        //                 title: "Widget 1",
+        //             }]
+        //         }]
+        //     }]
+        // }]
 
         const requestOptions = {
             method: 'POST',
@@ -158,9 +164,11 @@ class CourseService {
     };
 
 
-    createWidget = (topicId, widget) => {
+    createWidget = (topicId, widget, courseId) => {
 
-        for(let course of this.courses) {
+        let self = this
+        console.log(self)
+        for(let course of self.courses) {
             for(let module of course.modules) {
                 for(let lesson of module.lessons) {
                     for(let topic of lesson.topics) {
@@ -313,8 +321,8 @@ class CourseService {
 
     findCourseById = courseId => {
 
-        console.log(this.courses);
-        return(this.courses.find(
+        // console.log(CourseService.courses);
+        return(CourseService.courses.find(
             course => course.id === courseId
         ));
 
@@ -379,24 +387,26 @@ class CourseService {
     };
 
     findAllWidgets = (course1, module1, lesson1, topic1) => {
-        // let courseIndex= this.courses.findIndex(
-        //     course => course.id === course1.id
-        // );
-        //
-        // let moduleIndex = this.courses[courseIndex].modules.findIndex(
-        //     module => module.id === module1.id
-        // );
-        //
-        // let lessonIndex = this.courses[courseIndex].modules[moduleIndex].lessons.findIndex(
-        //     lesson => lesson.id === lesson1.id
-        // );
-        //
-        // let topicIndex = this.courses[courseIndex].modules[moduleIndex].lessons[lessonIndex].topics.findIndex(
-        //     topic => topic.id === topic1.id
-        // );
+        console.log(CourseService.courses)
 
-        // return this.courses[courseIndex].modules[moduleIndex].lessons[lessonIndex].topics[topicIndex].widgets
-        return courses[0].modules[0].lessons[0].topics[0].widgets
+        let courseIndex= CourseService.courses.findIndex(
+            course => course.id === course1.id
+        );
+
+        let moduleIndex = CourseService.courses[courseIndex].modules.findIndex(
+            module => module.id === module1.id
+        );
+
+        let lessonIndex = CourseService.courses[courseIndex].modules[moduleIndex].lessons.findIndex(
+            lesson => lesson.id === lesson1.id
+        );
+
+        let topicIndex = CourseService.courses[courseIndex].modules[moduleIndex].lessons[lessonIndex].topics.findIndex(
+            topic => topic.id === topic1.id
+        );
+
+        return CourseService.courses[courseIndex].modules[moduleIndex].lessons[lessonIndex].topics[topicIndex].widgets
+        // return courses[0].modules[0].lessons[0].topics[0].widgets
     };
 
     handleResponse = (response) => {

@@ -1,4 +1,5 @@
 import CourseService from "../services/CourseService";
+import WidgetService from "../services/WidgetService";
 
 const widgets =
     [
@@ -33,25 +34,30 @@ const widgets =
 const widgetReducer = (state ={widgets:[], preview: false}, action) => {
 
     let courseService = new CourseService();
+    let widgetService = new WidgetService();
 
     switch(action.type) {
 
         case 'DELETE_WIDGET':
             courseService.deleteWidget(action.widget.id);
+            widgetService.deleteWidget(action.widget.id);
             return {
                 widgets: state.widgets.filter(widget => widget.id !== action.widget.id)
             };
 
         case 'CREATE_WIDGET':
+            let xresponse = "";
+            widgetService.createWidget(action.topicId, action.courseId).then(
+                response => {
+                    console.log(response)
+                    xresponse =  response;
+                }
+            );
+
             return {
-                widgets: courseService.createWidget(action.topicId, {
-                    id: (new Date()).getTime(),
-                    title: 'Widget ' + ((new Date()).getTime()%10),
-                    type: 'HEADING',
-                    text: '',
-                    size: 1
-                })
-            };
+                widgets: xresponse
+            }
+            break;
 
         case 'UPDATE_WIDGET':
             // replace the old widget with the new widget
@@ -102,6 +108,12 @@ const widgetReducer = (state ={widgets:[], preview: false}, action) => {
             };
 
         case 'SAVE':
+
+            let apiResponse = "";
+            widgetService.saveAllWidgets(this.props.topic.id, state.widgets).then(res =>{
+                apiResponse = res
+            });
+
             return{
                 widgets:state.widgets
             };

@@ -1,6 +1,6 @@
 import CourseService from "./CourseService";
 
-class TopicService {
+class WidgetService {
     static myInstance = null;
     static courses;
 
@@ -12,61 +12,98 @@ class TopicService {
     }
 
     static getInstance() {
-        if (TopicService.myInstance == null) {
-            TopicService.myInstance = new TopicService();
+        if (WidgetService.myInstance == null) {
+            WidgetService.myInstance = new WidgetService();
         }
         return this.myInstance;
     }
 
-    createTopic = (courseId, moduleId, lessonId) => {
+    createWidget = (topicId, courseId) => {
 
-        var newTopic = {
-            // "id": parseInt((new Date()).getTime()/1000),
-            "title": "New Topic"
-            // ,
-            // "widgets" : [{
-            //     "id": parseInt((new Date()).getTime()/1000),
-            //     "title": "New Widget",
-            //     "text":"This is a Heading",
-            //     "size":1,
-            //     "type":"HEADING"
-            // }]
+        var newWidget = {
+            "title":"Widget1",
+            "type":"HEADING"
         };
 
         const requestOptions = {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/json'},
-            body: JSON.stringify(newTopic)
+            body: JSON.stringify(newWidget)
 
         };
         let self = this;
         let updatedCourse = self.courseService.findCourseById(courseId);
-        let updatedLesson;
+        let updatedTopic;
+        console.log(courseId)
         for(let module of updatedCourse.modules) {
-            if(module.id == moduleId){
                 for(let lesson of module.lessons){
-                    if(lesson.id == lessonId){
-                        updatedLesson = lesson;
+                    for(let topic of lesson.topics){
+                        if(topic.id == topicId){
+                            updatedTopic =  topic
                     }
                 }
             }
         }
-        return fetch(this.apiUrl+'/api/lesson/'+lessonId+'/topic', requestOptions)
+        return fetch(this.apiUrl+'/api/topic/'+topicId+'/widget', requestOptions)
             .then(this.handleResponse)
             .then(function(response) {
                 // console.log(response);
-                updatedLesson.topics.push(response);
+                updatedTopic.widgets.push(response);
                 self.courseService.findAllCourses();
-                // console.log(updatedLesson);
-                return updatedLesson.topics;
+                // console.log(updatedTopic.widgets.slice(0));
+                return updatedTopic.widgets;
             });
 
 
     };
 
+    findAllWidgets1 = (topicId) => {
 
-    deleteTopic = (topicId, topics) => {
+        const requestOptions = {
+            method: 'GET',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json'}
+
+        };
+
+        return fetch(this.apiUrl+'/api/topic/'+topicId+'/widget', requestOptions)
+            .then(this.handleResponse)
+            .then(function(response) {
+                console.log(response);
+                return response;
+            });
+
+    };
+
+
+    saveAllWidgets = (topicId, newWidgets) => {
+
+        this.findAllWidgets(topicId)
+            .then(widgets => {
+
+            });
+
+
+        const requestOptions = {
+            method: 'GET',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json'}
+
+        };
+
+        return fetch(this.apiUrl+'/api/topic/'+topicId+'/widget', requestOptions)
+            .then(this.handleResponse)
+            .then(function(response) {
+                console.log(response);
+                return response;
+            });
+
+    };
+
+
+
+    deleteWidget = (widgetId) => {
 
         const requestOptions = {
             method: 'DELETE',
@@ -74,16 +111,13 @@ class TopicService {
             headers: { 'Content-Type': 'application/json'}
         };
 
-        var self = this;
-        console.log(topicId);
-        let updatedTopics = topics.filter(topic => topic.id !== topicId);
-        return fetch(this.apiUrl+'/api/topic/' + topicId, requestOptions)
+        let self = this;
+        return fetch(this.apiUrl+'/api/widget/' + widgetId, requestOptions)
             .then(this.handleResponse)
             .then(function(response) {
                 // console.log(response);
                 self.courseService.findAllCourses();
-                // console.log(updatedTopics);
-                return updatedTopics;
+                return response;
             });
     };
 
@@ -123,4 +157,4 @@ class TopicService {
 
 }
 
-export default TopicService;
+export default WidgetService;

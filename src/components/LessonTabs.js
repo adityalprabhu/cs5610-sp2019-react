@@ -11,7 +11,7 @@ class LessonTabs extends React.Component {
         this.lessonService = LessonService.getInstance();
 
         this.state = {
-            lessons: this.props.module.lessons,
+            lessons: this.props.module == null ? null : this.props.module.lessons,
             disableEditTitle: true
         };
 
@@ -28,6 +28,7 @@ class LessonTabs extends React.Component {
                 self.setState({
                     lessons: updated_lessons
                 })
+                self.props.selectLesson(self.state.lessons[0])
             })
     };
 
@@ -88,12 +89,16 @@ class LessonTabs extends React.Component {
 
 
     componentDidUpdate(prevProps) {
-        if (prevProps.module.lessons[0].id !== this.props.module.lessons[0].id) {
 
-            this.setState(
-                {
-                    lessons: this.props.module.lessons
-                });
+        if(prevProps.module != null && prevProps.module.lessons[0] != null &&
+            this.props.module!=null && this.props.module.lessons[0]!=null) {
+            if (prevProps.module.lessons[0].id !== this.props.module.lessons[0].id) {
+
+                this.setState(
+                    {
+                        lessons: this.props.module.lessons
+                    });
+            }
         }
     }
 
@@ -102,7 +107,7 @@ class LessonTabs extends React.Component {
         return (
             <ul className="nav nav-tabs nav-justified" style={{marginTop: '10px'}}>
                 {
-                    this.state.lessons.map(lesson =>
+                    (this.state.lessons !=null) && this.state.lessons.map(lesson =>
 
                         <li onClick={() => this.props.selectLesson(lesson)}
                             className={['nav-item nav-link', lesson.id == this.props.selectedLessonId ? 'active' : ''].join(" ")}

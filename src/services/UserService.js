@@ -3,8 +3,8 @@ class UserService {
 
     constructor(){
         this.user = "";
-        // this.apiUrl = "http://localhost:8080";
-        this.apiUrl = " https://cs5610-sp19-adityalprabhu.herokuapp.com";
+        this.apiUrl = "http://localhost:8080";
+        // this.apiUrl = " https://cs5610-sp19-adityalprabhu.herokuapp.com";
     }
 
     static getInstance() {

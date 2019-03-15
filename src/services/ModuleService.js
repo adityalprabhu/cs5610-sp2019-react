@@ -5,8 +5,8 @@ class ModuleService {
     static courses;
 
     constructor() {
-        // this.apiUrl = "http://localhost:8080";
-        this.apiUrl = " https://cs5610-sp19-adityalprabhu.herokuapp.com";
+        this.apiUrl = "http://localhost:8080";
+        // this.apiUrl = " https://cs5610-sp19-adityalprabhu.herokuapp.com";
         this.courseService = CourseService.getInstance();
     }
 
@@ -21,21 +21,23 @@ class ModuleService {
     createModule = (courseId) => {
 
         let newModule = {
-            title: "New Module",
-            id: parseInt((new Date()).getTime()/1000),
-            lessons: [{
-                id: parseInt((new Date()).getTime() / 1000),
-                title: "Lesson 1",
-                topics: [{
-                    id: parseInt((new Date()).getTime() / 1000),
-                    title: "Topic 1",
-                    widgets: [{
-                        id: parseInt((new Date()).getTime() / 1000),
-                        title: "Widget 1",
-
-                    }]
-                }]
-            }]
+            title: "New Module"
+            // ,
+            // id: parseInt((new Date()).getTime()/1000),
+            // lessons: []
+                // {
+            //     id: parseInt((new Date()).getTime() / 1000),
+            //     title: "Lesson 1",
+            //     topics: [{
+            //         id: parseInt((new Date()).getTime() / 1000),
+            //         title: "Topic 1",
+            //         widgets: [{
+            //             id: parseInt((new Date()).getTime() / 1000),
+            //             title: "Widget 1",
+            //
+            //         }]
+            //     }]
+            // }]
         };
 
         const requestOptions = {

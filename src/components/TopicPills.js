@@ -11,8 +11,8 @@ class TopicPills extends React.Component {
         this.topicService = TopicService.getInstance();
 
         this.state = {
-            topics: this.props.lesson.topics,
-            topic: this.props.lesson.topics[0],
+            topics: this.props.lesson == null ? null : this.props.lesson.topics,
+            topic: this.props.lesson == null? null : this.props.lesson.topics[0],
             disableEditTitle: true,
             topicDeleted: false
         };
@@ -40,6 +40,8 @@ class TopicPills extends React.Component {
                 self.setState({
                     topics: updated_topics
                 })
+                self.props.selectTopic(self.state.topics[0])
+
             });
     };
 
@@ -89,7 +91,8 @@ class TopicPills extends React.Component {
     componentDidUpdate(prevProps) {
 
 
-        if(prevProps.lesson.topics[0] != null) {
+        if(prevProps.lesson!= null && prevProps.lesson.topics[0] != null &&
+            this.props.lesson !=null && this.props.lesson.topics[0] != null) {
             if (prevProps.lesson.topics[0].id !== this.props.lesson.topics[0].id) {
 
                 this.setState(
