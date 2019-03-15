@@ -3,7 +3,7 @@ class UserService {
 
     constructor(){
         this.user = "";
-        this.apiUrl = "http://localhost:8080";
+        this.apiUrl = "https://ancient-coast-13605.herokuapp.com";
         // this.apiUrl = " https://cs5610-sp19-adityalprabhu.herokuapp.com";
     }
 
@@ -64,6 +64,8 @@ class UserService {
             headers: { 'Content-Type': 'application/json' }
         };
 
+
+
         return fetch(this.apiUrl+'/api/logout', requestOptions)
             .then(function(res){
             console.log(res);
@@ -78,7 +80,14 @@ class UserService {
             headers: { 'Content-Type': 'application/json' }
         };
 
-        return fetch(this.apiUrl+'/api/profile', requestOptions)
+        let userId = 0
+        var user = JSON.parse(localStorage.getItem("user"))
+            if(user){
+             userId = user.id
+            }
+
+
+        return fetch(this.apiUrl+'/api/user/' + userId +'/profile', requestOptions)
             .then(this.handleResponse)
             .then(function(res){
                 console.log(res);

@@ -5,7 +5,7 @@ class TopicService {
     static courses;
 
     constructor() {
-        this.apiUrl = "http://localhost:8080";
+        this.apiUrl = "https://ancient-coast-13605.herokuapp.com";
         // this.apiUrl = " https://cs5610-sp19-adityalprabhu.herokuapp.com";
         this.courseService = CourseService.getInstance();
 

@@ -6,8 +6,8 @@ class CourseService {
 
     constructor() {
         // CourseService.courses = [];
-        this.apiUrl = "http://localhost:8080";
-        // this.apiUrl = " https://cs5610-sp19-adityalprabhu.herokuapp.com";
+        this.apiUrl = "https://ancient-coast-13605.herokuapp.com";
+        // this.apiUrl = "https://ancient-coast-13605.herokuapp.com";
         // this.courses = courses;
         var self = this;
 
@@ -41,8 +41,13 @@ class CourseService {
 
         };
         var self = this;
+        let userId = 0
+        var user = JSON.parse(localStorage.getItem("user"))
+        if(user){
+            userId = user.id
+        }        // console.log(userId)
 
-        return fetch(this.apiUrl+'/api/courses', requestOptions)
+        return fetch(this.apiUrl+'/api/user/'+ userId +'/courses', requestOptions)
             .then(this.handleResponse)
             .then(function(response) {
 
@@ -89,8 +94,14 @@ class CourseService {
             body: JSON.stringify(newCourse)
 
         };
+
+        let userId = 0
+        var user = JSON.parse(localStorage.getItem("user"))
+        if(user){
+            userId = user.id
+        }        // console.log(userId)
         var self = this;
-        return fetch(this.apiUrl+'/api/courses', requestOptions)
+        return fetch(this.apiUrl+'/api/user/'+ userId +'/courses', requestOptions)
             .then(this.handleResponse)
             .then(function(response) {
                 if(self.courses == ""){
